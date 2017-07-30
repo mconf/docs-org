@@ -2,7 +2,7 @@
 date: 2017-01-30
 title: About Mconf
 categories:
-  - getting-started
+  - Getting Started
 set: getting-started
 set_order: 1
 description: Start here to learn more about Mconf

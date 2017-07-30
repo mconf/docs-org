@@ -1,0 +1,23 @@
+header {
+  .logo {
+    img {
+      height: 50px;
+    }
+  }
+}
+
+table {
+  margin-bottom: 40px;
+
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+.wrapper {
+ max-width: 90%;
+}
+
+.tutorial .sidebar {
+  top: 15px;
+}

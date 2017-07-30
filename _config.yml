@@ -21,7 +21,7 @@ author:
 
 permalink: /:categories/:title/
 
-gems:
+plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-feed
@@ -38,7 +38,7 @@ collections:
 
 # Conversion
 markdown: kramdown
-highlighter: kramdown
+highlighter: rouge
 
 jekyll-archives:
   enabled: ['categories']

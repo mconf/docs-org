@@ -4,7 +4,7 @@ title: Mconf-Web Releases
 categories:
   - Mconf-Web
 description: Released versions of Mconf-Web
-type: Document
+type: Link
+source_url: https://github.com/mconf/mconf-web/releases
+layout: redirect
 ---
-
-See the list of releases at: <https://github.com/mconf/mconf-web/releases>

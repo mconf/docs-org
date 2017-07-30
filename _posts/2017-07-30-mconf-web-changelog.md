@@ -4,7 +4,7 @@ title: Mconf-Web Changelog
 categories:
   - Mconf-Web
 description: Changelog of Mconf-Web
-type: Document
+type: Link
+source_url: https://github.com/mconf/mconf-web/blob/master/CHANGELOG.md
+layout: redirect
 ---
-
-See the changelog at: <https://github.com/mconf/mconf-web/releases>

@@ -2,7 +2,9 @@
 date: 2017-01-30
 title: About Mconf
 categories:
-  - Getting Started
+  - getting-started
+set: getting-started
+set_order: 1
 description: Start here to learn more about Mconf
 type: Document
 ---

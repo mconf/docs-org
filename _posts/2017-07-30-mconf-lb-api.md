@@ -2,6 +2,7 @@
 date: 2017-01-30
 title: API LB
 categories:
+  - LB
   - APIs
 description: The API of the Load Balancer
 type: Document

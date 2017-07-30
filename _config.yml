@@ -2,7 +2,7 @@
 # Site
 
 title: Base
-url: "https://orange-ape.cloudvent.net/"
+# url: "https://orange-ape.cloudvent.net/"
 baseurl:
 google_analytics_key:
 disqus_shortname:
@@ -10,15 +10,11 @@ newsletter_action:
 
 # Values for the jekyll-seo-tag gem (https://github.com/jekyll/jekyll-seo-tag)
 logo: /siteicon.png
-description: Knowledge base template for Jekyll.
+description: Mconf knowledge archives.
 author:
   name:
   email:
   twitter: # twitter username without the @ symbol
-social:
-  name: Base Template
-  links:
-    - https://github.com/CloudCannon/base-jekyll-template
 
 # -----
 # Build
@@ -40,6 +36,9 @@ exclude:
 collections:
   sets:
 
+# Conversion
+markdown: kramdown
+highlighter: kramdown
 
 jekyll-archives:
   enabled: ['categories']
@@ -66,23 +65,3 @@ defaults:
       path: "index.html"
     values:
       body_class: "show_hero_search"
-# -----------
-# CloudCannon
-
-social_icons:
-  - Facebook
-  - Google Plus
-  - Instagram
-  - LinkedIn
-  - Pinterest
-  - Tumblr
-  - Twitter
-  - YouTube
-  - Email
-  - RSS
-
-types:
-  - Document
-  - Video
-
-_comments:

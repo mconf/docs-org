@@ -1,3 +1,10 @@
+body {
+	font-size: 1.7em;
+	line-height: 1.65em;
+	color: #24292e;
+  font-family: 'Roboto', sans-serif;
+}
+
 header {
   .logo {
     img {
@@ -25,4 +32,14 @@ table {
 .related {
   background: #f6f6f6;
   padding: 16px;
+}
+
+code {
+  background: #e6e6e6;
+  color: #555;
+}
+
+.highlight, .highlight code {
+  background: $header-color;
+  color: #fafafa;
 }

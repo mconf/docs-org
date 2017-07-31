@@ -3,6 +3,7 @@ date: 2017-01-30
 title: Installing Mconf-Web
 categories:
   - Mconf-Web
+  - Installation
 description: How to install Mconf-Web in your server
 type: Document
 ---

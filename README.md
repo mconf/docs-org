@@ -75,3 +75,11 @@ To add a tutorial/post to a series:
 
 * Exposed as a data file to give clients better access.
 * Set in the *Data* / *Footer* section.
+
+
+# TODOs
+
+* Update this readme
+* Warn/alert sections to use on pages with important information
+* Hide the sidebar in tutorials when not needed
+* Better ordering, some articles are way more important than others (use colors?)

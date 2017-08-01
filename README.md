@@ -1,36 +1,8 @@
-# Base
-
-Knowledge base template for Jekyll. Browse through a [live demo](https://orange-ape.cloudvent.net/).
-
-![Base template screenshot](images/_screenshot.png)
-
-Base was made by [CloudCannon](http://cloudcannon.com/), the Cloud CMS for Jekyll.
-Find more templates and themes at [Jekyll Tips](https://learn.cloudcannon.com/jekyll-templates/).
-
-Learn Jekyll with step-by-step tutorials and videos at [CloudCannon Academy](https://learn.cloudcannon.com/).
-
-## Features
-
-* Tutorials organised by category
-* Two types of tutorials - text and video
-* Ability to have a "tutorial series"
-* FAQ section
-* Disqus comments
-* Sticky sidebar for main headings in tutorials
-* Optimised for editing in [CloudCannon](http://cloudcannon.com/)
-* RSS/Atom feed
-* SEO tags
-* Google Analytics
-
-## Setup
-
-1. Add your site and author details in `_config.yml`.
-2. Add your Google Analytics, Disqus and MailChimp keys to `_config.yml`.
-3. Get a workflow going to see your site's output (with [CloudCannon](https://app.cloudcannon.com/) or Jekyll locally).
+# Mconf Docs
 
 ## Develop
 
-Base was built with [Jekyll](http://jekyllrb.com/) version 3.4.3, but should support newer versions as well.
+Base was built with [Jekyll](http://jekyllrb.com/).
 
 Install the dependencies with [Bundler](http://bundler.io/):
 
@@ -45,8 +17,6 @@ $ bundle exec jekyll serve
 ~~~
 
 ## Editing
-
-Base is already optimised for adding, updating and removing tutorials, navigation, footer and FAQ information in CloudCannon.
 
 The sticky sidebar in tutorials in populated by pulling out `<h2>` elements from the content.
 
@@ -77,8 +47,30 @@ To add a tutorial/post to a series:
 * Set in the *Data* / *Footer* section.
 
 
-# TODOs
+## TODOs
+
+In the content:
+
+* About Mconf-Live installation (`/getting started/mconf-live/mconf-live/`)
+* Mconf-Live troubleshooting (`/mconf-live/faq/mconf-live-faq/`)
+* Mconf-Live installation (`/mconf-live/installation/mconf-live-installing/`)
+* Differences between Mconf-Live and BigBlueButton
+* Change log and version tracking for Mconf-Live and Mconf-Web (what is the latest version, based on which BigBlueButton, where to find it)
+* Pages about the customizations in the plugins for Moodle
+
+In the docs website:
 
 * Update this readme
 * Warn/alert sections to use on pages with important information
-* Better ordering, some articles are way more important than others (use colors?)
+* Better ordering, some articles are way more important than others (use colors? pinned posts?)
+
+# Template
+
+Knowledge base template for Jekyll. Browse through a [live demo](https://orange-ape.cloudvent.net/).
+
+![Base template screenshot](images/_screenshot.png)
+
+Base was made by [CloudCannon](http://cloudcannon.com/), the Cloud CMS for Jekyll.
+Find more templates and themes at [Jekyll Tips](https://learn.cloudcannon.com/jekyll-templates/).
+
+Learn Jekyll with step-by-step tutorials and videos at [CloudCannon Academy](https://learn.cloudcannon.com/).

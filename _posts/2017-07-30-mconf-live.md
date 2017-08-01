@@ -2,8 +2,11 @@
 date: 2017-01-30
 title: About Mconf-Live
 categories:
+  - Getting Started
   - Mconf-Live
-description: All about Mconf-Live
+set: getting-started
+set_order: 2
+description: All about Mconf-Live, Mconf's web conference server
 type: Document
 ---
 
@@ -14,7 +17,6 @@ Mconf-Live is an open source web conference system based on [BigBlueButton](http
 ## Installation
 
 * In a standalone server (similar to how BigBlueButton is usually installed), use the instructions provided in [this repository](https://github.com/mconf-cookbooks/mconf-live-solo).
-* To install and join the Mconf Network, see [Mconf Global Network]({% post_url 2017-07-30-mconf-network %}).
 
 
 ## Changelog

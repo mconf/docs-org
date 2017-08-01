@@ -83,10 +83,6 @@
     top: 85px;
 		width: 200px;
 
-		@media #{$mid-point} {
-			display: block;
-		}
-
 		h3 {
 			margin-top: 0;
 		}
@@ -115,13 +111,24 @@
 		}
 	}
 
+  &.has-sidebar {
+    .sidebar {
+  		@media #{$mid-point} {
+  			display: block;
+      }
+    }
+
+    .tutorial-content {
+  		@media #{$mid-point} {
+  			margin-left: 230px;
+  		}
+    }
+  }
+
 	.tutorial-content {
 		width: 100%;
-
-		@media #{$mid-point} {
-			margin-left: 230px;
-		}
 	}
+
 }
 
 .listing {

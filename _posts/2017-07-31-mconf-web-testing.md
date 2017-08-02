@@ -14,7 +14,7 @@ type: Document
 
 ## Running the tests
 
-To run the tests, first you need to set up your [[development environment|Development]]. Then you can run the tests with:
+To run the tests, first you need to set up your [development environment]({% post_url 2017-07-31-mconf-web-development %}). Then you can run the tests with:
 
 ```bash
 $ bundle exec rake

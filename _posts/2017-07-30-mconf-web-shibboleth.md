@@ -32,8 +32,8 @@ This guide is strongly based on: http://wiki.rnp.br/pages/viewpage.action?pageId
 
 ### Prerequisites
 
-* You need a server with Mconf-Web up and running. See [[this guide|Deployment]].
-* Your Mconf-Web server needs to be using HTTPS (SSL). See [[this guide|SSL]].
+* You need a server with Mconf-Web up and running. See [this guide]({% post_url 2017-07-30-mconf-web-deploy %}).
+* Your Mconf-Web server needs to be using HTTPS (SSL). See [this guide]({% post_url 2017-07-30-mconf-web-ssl %}).
 
 ### Installation
 
@@ -113,7 +113,7 @@ At last, edit `/root/metadata-sp.xml` once again and replace the block with `$CE
 
 Having your server configured, you now have to enable and configure Shibboleth inside Mconf-Web.
 
-Go to the [[management area|Configuring-the-Website#management-area]] and you will see some parameters used to configure Shibboleth. They are:
+Go to the [management area]({% post_url 2017-07-30-mconf-web-configuration %}) and you will see some parameters used to configure Shibboleth. They are:
 
 * **Enable Shibboleth**: If checked it will enable the login via Shibboleth and add information in the interface for the user to select it.
 * **Shibboleth environment variables**: When the identity provider returns the user's information to Mconf-Web, they will be stored in environment variables. You can define in this field the name of the variables that will be read and stored within the session. If left empty, all variables that start with `shib-` will be fetched.

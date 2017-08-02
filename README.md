@@ -51,12 +51,14 @@ To add a tutorial/post to a series:
 
 In the content:
 
+* How to contribute
 * About Mconf-Live installation (`/getting started/mconf-live/mconf-live/`)
 * Mconf-Live troubleshooting (`/mconf-live/faq/mconf-live-faq/`)
 * Mconf-Live installation (`/mconf-live/installation/mconf-live-installing/`)
 * Differences between Mconf-Live and BigBlueButton
 * Change log and version tracking for Mconf-Live and Mconf-Web (what is the latest version, based on which BigBlueButton, where to find it)
 * Pages about the customizations in the plugins for Moodle
+* Pages with the current roadmap for all components, even if just a high level description
 
 In the docs website:
 

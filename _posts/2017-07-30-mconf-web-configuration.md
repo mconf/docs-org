@@ -14,10 +14,10 @@ Mconf-Web stores all its configurations in a database and provides a management 
 There are basically 3 ways to configure the website:
 
 * Using the management area in the website: **this is what you should do**, see more about it below;
-* Pre-populate the database before creating it, using `setup_conf.yml` file: useful for development or to setup more than one website (see [[this page|Configuration-Files]]);
+* Pre-populate the database before creating it, using `setup_conf.yml` file: useful for development or to setup more than one website (see more about it at the end of this page);
 * Hacking the source code and directly editing the database: you'll only need to do it if you need to change something that is not yet configurable using the management page. You'll also need knowledge in Rails and the internals of Mconf-Web.
 
-It is also important to point out that the majority of the things you change in the configurations of Mconf-Web will require a [[restart|Deployment#restart]] in the application.
+It is also important to point out that the majority of the things you change in the configurations of Mconf-Web will require a [restart]({% post_url 2017-07-30-mconf-web-deploy %}#restart) in the application.
 
 
 ## Management area
@@ -128,16 +128,14 @@ The database is configured in the file `config/database.yml`. This is a standard
 
 You can also take a look at the examples in our repository:
 
-* [Default example](https://github.com/mconf/mconf-web/blob/v2.0.x/config/database.yml.example): Uses MySQL for all environments (recommended);
-* [SQLite3 example](https://github.com/mconf/mconf-web/blob/v2.0.x/config/database.yml.sqlite.example): Example on how to use SQLite3.
+* [Default example](https://github.com/mconf/mconf-web/blob/v2.0.0/config/database.yml.example): Uses MySQL for all environments (recommended);
+* [SQLite3 example](https://github.com/mconf/mconf-web/blob/v2.0.0/config/database.yml.sqlite.example): Example on how to use SQLite3.
 
 ### Configuring the application (setup_conf.yml)
 
-This file contains two sections, one with configurations that are loaded at every application startup and other that is used only once when the database is created. For the latter, you configure everything in it later on using [[Mconf-Web's management page|Configuring-the-Website]].
+This file contains two sections, one with configurations that are loaded at every application startup and other that is used only once when the database is created.
 
 Remember to keep the file indented and formatted as it is. Its format and structure have semantic meaning, so you shouldn't change them. Some of the parameters in this file are mandatory for the application to behave properly, so the application needs to be able to read it at startup.
 
 Read the comments in the example file (`config/setup_conf.yml.example`). If you don't understand what some of the attributes are used for, don't set them. Setting only the attributes defined in the example file is enough, you can then edit the rest of the configurations in the website interface.
-
-For more information about the available configuration attributes, see [[Mconf-Web's management page|Configuring-the-Website]].
 

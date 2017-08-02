@@ -96,7 +96,7 @@ $ sudo service apache2 restart
 
 ## Configuring the application
 
-After enabling SSL in your server, you have to configure Mconf-Web to use it. You can either access the [[management page|Configuring-the-Website]] (that might not be accessible now) or do it from your terminal with:
+After enabling SSL in your server, you have to configure Mconf-Web to use it. You can either access the [management page]({% post_url 2017-07-30-mconf-web-configuration %}) (that might not be accessible now) or do it from your terminal with:
 
 ```bash
 $ cd /home/mconf/mconf-web/current

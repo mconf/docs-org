@@ -30,8 +30,8 @@ Mconf-Web can also be adapted to your needs. It is a Ruby on Rails application, 
 
 If you are migrating to Mconf-Web 2.x, check these pages for more information:
 
-* [[Migrate from 0.8.1 to 2.0 by installing a new server|Migrate-from-0.8.1-to-2.0-by-installing-a-new-server]] (recommended)
-* [[Migrate from 0.8.1 to 2.0 by upgrading your server|Migrate-from-0.8.1-to-2.0-by-upgrading-your-server]]
+* [Migrate from 0.8.1 to 2.0 by installing a new server]({% post_url 2017-07-31-mconf-web-migrate-0_8-to-2_0-new-server %}) (recommended)
+* [Migrate from 0.8.1 to 2.0 by upgrading your server]({% post_url 2017-07-31-mconf-web-migrate-0_8-to-2_0-update-server %})
 
 
 # Installing Mconf-Web
@@ -41,8 +41,8 @@ If you are migrating to Mconf-Web 2.x, check these pages for more information:
 You need to install some system packages before you can run Mconf-web in production:
 
 ```bash
-$ sudo apt-get update
-$ sudo apt-get install curl make git-core libruby aspell-es aspell-en \
+sudo apt-get update
+sudo apt-get install curl make git-core libruby aspell-es aspell-en \
     libxml2-dev libxslt1-dev libmagickcore-dev libmagickwand-dev \
     imagemagick libmysqlclient-dev zlib1g-dev build-essential nfs-common \
     libreadline-dev libffi-dev libcurl4-openssl-dev mysql-server \
@@ -77,26 +77,26 @@ The commands below will show you how to install rbenv. In short, this is what yo
 
 ```bash
 # Install rbenv
-$ git clone git://github.com/rbenv/rbenv.git ~/.rbenv
-$ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-$ echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-$ source ~/.bash_profile
+git clone git://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+source ~/.bash_profile
 
 # install ruby build
-$ git clone git://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+git clone git://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 
 # install ruby
-$ rbenv install 2.2.5
-$ rbenv rehash
+rbenv install 2.2.5
+rbenv rehash
 
 # set this version of ruby as the default and check it is correct
-$ rbenv global 2.2.5
-$ rbenv version
+rbenv global 2.2.5
+rbenv version
 > 2.2.5 (set by /home/mconf/.rbenv/version)
 
 # install bundler
-$ gem install bundler -v '1.7.2'
-$ rbenv rehash
+gem install bundler -v '1.7.2'
+rbenv rehash
 ```
 
 ## Download the application
@@ -106,24 +106,24 @@ We'll assume the application is going to be installed at `/var/www/mconf-web/cur
 Install git if you don't have it and clone Mconf-Web:
 
 ```bash
-$ sudo mkdir -p /var/www/mconf-web/current
-$ sudo chown mconf:www-data /var/www/mconf-web/current # www-data is for Apache
-$ git clone git://github.com/mconf/mconf-web.git /var/www/mconf-web/current
+sudo mkdir -p /var/www/mconf-web/current
+sudo chown mconf:www-data /var/www/mconf-web/current # www-data is for Apache
+git clone git://github.com/mconf/mconf-web.git /var/www/mconf-web/current
 ```
 
 Next, change your repository to the version you want to deploy (replace `v2.4.0` by the desired version):
 
 ```bash
-$ cd /var/www/mconf-web/current
-$ git checkout v2.4.0
+cd /var/www/mconf-web/current
+git checkout v2.4.0
 ```
 
-The versions available are the tags available. To see all versions, go to [this page](https://github.com/mconf/mconf-web/tags).
+The versions available are the tags available. To see all versions, go to [this page](https://github.com/mconf/mconf-web/releases).
 
 With the repository you can now install the dependencies. Run the commands below:
 
 ```bash
-$ bundle install --path vendor/bundle --without=development test
+bundle install --path vendor/bundle --without=development test
 ```
 
 ## Configuration files
@@ -131,24 +131,24 @@ $ bundle install --path vendor/bundle --without=development test
 There are two files that need to be configured and **they are both required**. At first, copy the example files:
 
 ```bash
-$ cp /var/www/mconf-web/current/config/setup_conf.yml.example /var/www/mconf-web/current/config/setup_conf.yml
-$ cp /var/www/mconf-web/current/config/database.yml.example /var/www/mconf-web/current/config/database.yml
+cp /var/www/mconf-web/current/config/setup_conf.yml.example /var/www/mconf-web/current/config/setup_conf.yml
+cp /var/www/mconf-web/current/config/database.yml.example /var/www/mconf-web/current/config/database.yml
 ```
 
 See below what you have to edit in `setup_conf.yml` and `database.yml`:
 
 * `database.yml` configures the database, using MySQL by default. You only need to set the variables `username` and `password` (for all environments) with the user that will be used to access MySQL and his password. We recommend a user other than `root` (usually `mconf`). See in the section 4.1. below how to create this user.
 
-* `setup_conf.yml` has general configurations for the web application, some are required when the application is started and some are only used once when creating the database. For the latter, you can also later use Mconf-Web's management interface (see [[this page|Configuring-the-Website]]) to edit them. If you don't edit this file, the default administrator account will have username `admin` and password `admin`.
+* `setup_conf.yml` has general configurations for the web application, some are required when the application is started and some are only used once when creating the database. For the latter, you can also later use Mconf-Web's management interface (see [this page]({% post_url 2017-07-30-mconf-web-configuration %})) to edit them. If you don't edit this file, the default administrator account will have username `admin` and password `admin`.
 
 We suggest that you restrict the permissions to these files, since they will contain sensitive information:
 
 ```bash
-$ sudo chmod 0600 /var/www/mconf-web/current/config/setup_conf.yml
-$ sudo chmod 0600 /var/www/mconf-web/current/config/database.yml
+sudo chmod 0600 /var/www/mconf-web/current/config/setup_conf.yml
+sudo chmod 0600 /var/www/mconf-web/current/config/database.yml
 ```
 
-To learn more about the other options in these files, see [[this page|Configuration-Files]].
+To learn more about the other options in these files, see [this page]({% post_url 2017-07-30-mconf-web-configuration %})).
 
 
 
@@ -161,7 +161,7 @@ This section explains how to create a database for Mconf-Web with a user named `
 First open MySQL's console (you will have to enter the password for the `root` user):
 
 ```bash
-$ mysql -u root -p
+mysql -u root -p
 ```
 
 (If you're having trouble with the root password in MySQL, see [this FAQ entry](https://github.com/mconf/wiki/wiki/FAQ#wrong-username-andor-password-for-mysql).)
@@ -189,19 +189,19 @@ FLUSH PRIVILEGES;
 With the configuration files properly set, we'll now set up the database and generate a new [secret key](http://www.railsrocket.com/rake-secret) for the application:
 
 ```bash
-$ cd /var/www/mconf-web/current
-$ RAILS_ENV=production bundle exec rake db:drop db:create db:reset
+cd /var/www/mconf-web/current
+RAILS_ENV=production bundle exec rake db:drop db:create db:reset
 
 # This command will change the secret keys used by the application for cookies and
 # passwords. It's really important that you do it, otherwise your application will
 # use the default values (that are public!) and will be vulnerable.
-$ RAILS_ENV=production bundle exec rake secret:reset
+RAILS_ENV=production bundle exec rake secret:reset
 ```
 
 Then precompile the assets (this might take a few minutes to finish):
 
 ```bash
-$ bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets assets:precompile
+bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets assets:precompile
 ```
 
 
@@ -217,9 +217,9 @@ The web server we use to host Mconf-Web is Apache. We also use [Passenger](http:
 Install Passenger (it's a ruby gem) and its module for Apache. Passenger has a nice installer that will compile the Apache module and install it for you. If some dependency is missing it will warn you and help you install it. Run the following commands:
 
 ```bash
-$ gem install rack:1.5.5 passenger:4.0.59
-$ rbenv rehash
-$ passenger-install-apache2-module
+gem install rack:1.5.5 passenger:4.0.59
+rbenv rehash
+passenger-install-apache2-module
 ```
 _(Note: we install rack also because newer versions of it require ruby > 2.2.0.)_
 
@@ -234,8 +234,8 @@ The application `passenger-install-apache2-module` is interactive and has the fo
 Once Passenger has finished installing, enable its module in Apache with:
 
 ```bash
-$ passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf-available/mconf-passenger.conf
-$ sudo a2enconf mconf-passenger
+passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf-available/mconf-passenger.conf
+sudo a2enconf mconf-passenger
 ```
 
 This will create a new configuration file with the Passenger module snippet, the same block Passenger showed you in the last item after the installation.
@@ -250,15 +250,15 @@ You can add configuration files at `/etc/apache2/conf-available/` and sites at `
 At first we enable some modules in Apache and remove any default site (in case it exists):
 
 ```bash
-$ sudo a2enmod rewrite
-$ sudo a2enmod xsendfile
-$ sudo rm /etc/apache2/sites-enabled/*  # be careful if you have something installed already!
+sudo a2enmod rewrite
+sudo a2enmod xsendfile
+sudo rm /etc/apache2/sites-enabled/*  # be careful if you have something installed already!
 ```
 
 Now you need to add a configuration file for Mconf-Web. You might just download our example and edit it:
 
 ```bash
-$ sudo cp /var/www/mconf-web/current/config/webserver/apache2.example /etc/apache2/sites-available/mconf-web.conf
+sudo cp /var/www/mconf-web/current/config/webserver/apache2.example /etc/apache2/sites-available/mconf-web.conf
 ```
 
 The file will be saved at `/etc/apache2/sites-available/mconf-web.conf`.
@@ -274,13 +274,13 @@ Review also the `LimitRequestBody` option, that is used to limit the size of fil
 After editing the file, enable it in Apache with:
 
 ```bash
-$ sudo a2ensite mconf-web
+sudo a2ensite mconf-web
 ```
 
 At last, restart Apache and it should be ready to serve Mconf-Web:
 
 ```bash
-$ sudo service apache2 restart
+sudo service apache2 restart
 ```
 
 At this point you should already be able to access your application in your browser!
@@ -297,7 +297,7 @@ At this point you should already be able to access your application in your brow
 Install monit:
 
 ```bash
-$ sudo apt-get install monit
+sudo apt-get install monit
 ```
 
 You shouldn't have problems regarding the version of Monit being used, but, for a reference, these instructions have been tested with Monit 5.3.2.
@@ -305,7 +305,7 @@ You shouldn't have problems regarding the version of Monit being used, but, for 
 The configuration files Mconf-Web uses for Monit are found in the application's folder `config/monit/`. We will simply include these files in Monit's configuration file, so they are loaded when monit starts. First, open the configuration file with an editor:
 
 ```bash
-$ sudo vim /etc/monit/monitrc
+sudo vim /etc/monit/monitrc
 ```
 
 Change the monitoring interval to 1 minute (it usually defaults to 2 minutes):
@@ -336,8 +336,8 @@ Notice that this file contains the path to the application and the user/group th
 To start and stop Monit you can simply run:
 
 ```bash
-$ sudo /etc/init.d/monit stop
-$ sudo /etc/init.d/monit start
+sudo /etc/init.d/monit stop
+sudo /etc/init.d/monit start
 ```
 
 Be aware that stopping Monit will *not* stop the processes it monitors. You have to stop them individually before or after stopping Monit. When you start Monit, however, all processes are started. Monit is also started automatically when your server is started, so all processes will automatically be started.
@@ -345,7 +345,7 @@ Be aware that stopping Monit will *not* stop the processes it monitors. You have
 You can check if the processes being monitored are running with:
 
 ```bash
-$ ps aux | grep -e resque
+ps aux | grep -e resque
 ```
 
 The response you get should include the processes in the example output below:
@@ -358,12 +358,12 @@ To start or stop the processes individually, use:
 
 ```bash
 # for resque workers: all of them
-$ sudo monit -g resque_workers start
-$ sudo monit -g resque_workers stop
+sudo monit -g resque_workers start
+sudo monit -g resque_workers stop
 
 # for all services
-$ sudo monit start all
-$ sudo monit stop all
+sudo monit start all
+sudo monit stop all
 ```
 
 If any of the commands above fail with the message `monit: Cannot connect to the monit daemon. Did you start it with http support?`, you need to enable http support on Monit's config file. Open the configuration file at `/etc/monit/monitrc`. Search for a section similar to the one below and uncomment it:
@@ -398,13 +398,13 @@ Monit's log file is located at `/var/log/monit.log`. The log files for the proce
 You server should already have it installed, but if it doesn't, install it with:
 
 ```bash
-$ sudo apt-get install logrotate
+sudo apt-get install logrotate
 ```
 
 The configuration file for logrotate can be copied from Mconf-Web's repository with:
 
 ```bash
-$ sudo cp /var/www/mconf-web/current/config/logrotate/mconf-web /etc/logrotate.d/mconf-web
+sudo cp /var/www/mconf-web/current/config/logrotate/mconf-web /etc/logrotate.d/mconf-web
 ```
 
 If you have Mconf-Web installed in a path other than `/var/www/mconf-web/current`, you will have to edit the  application path in the configuration file above.
@@ -412,9 +412,9 @@ If you have Mconf-Web installed in a path other than `/var/www/mconf-web/current
 Then set the permissions and activate logrotate:
 
 ```bash
-$ sudo chown root:root /etc/logrotate.d/mconf-web
-$ sudo chmod 644 /etc/logrotate.d/mconf-web
-$ sudo logrotate -s /var/lib/logrotate/status /etc/logrotate.d/mconf-web
+sudo chown root:root /etc/logrotate.d/mconf-web
+sudo chmod 644 /etc/logrotate.d/mconf-web
+sudo logrotate -s /var/lib/logrotate/status /etc/logrotate.d/mconf-web
 ```
 
 If the last command doesn't print any errors, it should be working. Check the `log` folder inside your Mconf-Web to see if the log files have been changed.
@@ -427,7 +427,7 @@ If the last command doesn't print any errors, it should be working. Check the `l
 
 ## Done!
 
-At this point you finished installing Mconf-Web. The first thing you might want to do is [[access the application and configure it|Configuring-the-Website]].
+At this point you finished installing Mconf-Web. The first thing you might want to do is [access the application and configure it]({% post_url 2017-07-30-mconf-web-configuration %})).
 
 
 
@@ -439,9 +439,9 @@ At this point you finished installing Mconf-Web. The first thing you might want 
 To restart the application you need to restart the web server and all processes being monitored:
 
 ```bash
-$ sudo service apache2 restart
-$ sudo /etc/init.d/monit restart
-$ sudo monit restart all
+sudo service apache2 restart
+sudo /etc/init.d/monit restart
+sudo monit restart all
 ```
 
 The web server you'll need to restart every time you change anything in the application (source code) or configuration files. You don't always need to restart Monit, only if you changed anything in its configuration files or in files that the monitored processes use (for example, if you change the Gmail account settings used to send emails). If you're not sure, restart it.
@@ -453,10 +453,10 @@ The most important backup you need is your database. If you're using MySQL, you 
 
 ```bash
 # backup: dump the database to a .sql file
-$ mysqldump -u root -p mconf_production > mconf_production-`date +%F`.sql
+mysqldump -u root -p mconf_production > mconf_production-`date +%F`.sql
 
 # restore: load the .sql file
-$ mysql -u root -p mconf_production < mconf_production-2011-06-21.sql
+mysql -u root -p mconf_production < mconf_production-2011-06-21.sql
 ```
 
 There are also files that are not stored in the database, such as user avatars and attachments. And you also might want to backup your log files. So make sure you back up the files in the following folders:
@@ -475,27 +475,27 @@ There are also files that are not stored in the database, such as user avatars a
 At first, update your repository and get the version you want (replace `v2.4.0` by the desired version):
 
 ```bash
-$ cd /var/www/mconf-web/current
-$ git pull
-$ git checkout v2.4.0
+cd /var/www/mconf-web/current
+git pull
+git checkout v2.4.0
 ```
 
 Update the dependencies:
 
 ```bash
-$ bundle install --without=development test
+bundle install --without=development test
 ```
 
 Migrate the database:
 
 ```bash
-$ RAILS_ENV=production bundle exec rake db:migrate
+RAILS_ENV=production bundle exec rake db:migrate
 ```
 
 Recompile the assets:
 
 ```bash
-$ bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets assets:precompile
+bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets assets:precompile
 ```
 
 There are also other files that might need to be updated, such as the configuration files for Monit, that will not be configured with the commands above. To check if you need to do any extra work, look at the update notes in the [changelog](https://github.com/mconf/mconf-web/blob/master/CHANGELOG.md).

@@ -75,8 +75,8 @@ FLUSH PRIVILEGES;
 ```
 
 * Configuration files. You need to create and edit the files below. They don't exist yet in your repository, but they all have example files in the same directory that can be copied and used. The files are:
-  * `config/database.yml`: Configures the database. Use the user `mconf` and the password you configured on MySQL in the step below. See [[this page|Configuration-Files#configuring-the-database-databaseyml]] for more details about it.
-  * `config/setup_conf.yml`: Contains the basic configuration data that will be used during the database setup and when the application is initialized. See [[this page|Configuration-Files#configuring-the-application-setup_confyml]] for more details about it.
+  * `config/database.yml`: Configures the database. Use the user `mconf` and the password you configured on MySQL in the step below. See [this page]({% post_url 2017-07-30-mconf-web-configuration %}#configuration-files) for more details about it.
+  * `config/setup_conf.yml`: Contains the basic configuration data that will be used during the database setup and when the application is initialized. See [this page]({% post_url 2017-07-30-mconf-web-configuration %}#configuration-files) for more details about it.
 
 * Setup the database. It will drop and recreate your **development** database and create the seeding data you need to run the application.
 
@@ -113,17 +113,13 @@ If you get an error saying that your database is at the wrong version, just run 
 
 ## Testing
 
-Proceed to [[this page|Testing]].
-
-## Development Tips
-
-Proceed to [[this page|Development-Tips]].
+See [this page]({% post_url 2017-07-31-mconf-web-testing %}).
 
 ## Configuring the website
 
-Mconf-Web stores all its configurations in a database and provides a **management interface** in the website where the admin user can edit most of these configurations. See [[this page|Configuring-the-Website]] for more details.
+Mconf-Web stores all its configurations in a database and provides a **management interface** in the website where the admin user can edit most of these configurations. See [this page]({% post_url 2017-07-30-mconf-web-configuration %}) for more details.
 
-Also, the configurations that can be edited in the management interface can also be configured using the file `config/setup_conf.yml`. See [[this page|Configuration-Files]] for more details on how it works.
+Also, the configurations that can be edited in the management interface can also be configured using the file `config/setup_conf.yml`. See [this page]({% post_url 2017-07-30-mconf-web-configuration %}#configuration-files) for more details on how it works.
 
 
 ## Development tips

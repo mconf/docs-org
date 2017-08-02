@@ -7,7 +7,7 @@ description: How to translate Mconf-Web into your language
 type: Document
 ---
 
-We use Transifex to translate Mconf-Web to other languages. To help with the translation, visit https://www.transifex.com/projects/p/mconf-web/, create an account and request to be included as a translator to the language you with to translate Mconf-Web to.
+We use Transifex to translate Mconf-Web to other languages. To help with the translation, visit <https://www.transifex.com/projects/p/mconf-web/>, create an account and request to be included as a translator to the language you with to translate Mconf-Web to.
 
 The languages maintained by the Mconf team are:
 
@@ -15,18 +15,18 @@ The languages maintained by the Mconf team are:
 * Portuguese (Brazil)
 
 
-## Technical information
+### Technical information
 
 All the language files are inside the folder `config/locales` and they use the [YAML format](http://guides.rubyonrails.org/i18n.html). There is a folder for each language and each of these folders contains one or more language files. All the files in these folders are automatically loaded when the application starts.
 
-### Development process
+#### Development process
 
 * Both `en` and `pt-br` are updated during the development process. Files are updated directly on GitHub.
 * Periodically the files for `en` and `pt-br` are uploaded to Transifex.
 * Other languages are translated directly on Transifex.
 * Periodically the files for the other languages is downloaded from Transifex and updated into the repository.
 
-### How to add a new language manually
+#### How to add a new language manually
 
 For French ("fr"), for example:
 

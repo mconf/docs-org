@@ -1,4 +1,8 @@
-- question: What is this?
-  answer: This is a template for a FAQ.
-- question: Is this another question?
-  answer: Yes it is!
+- question: What is Mconf?
+  answer: Mconf is an open source web conference system built on top of (and around of) <a href="https://bigbluebutton.org">BigBlueButton</a>. Mconf is composed of several components, among them are Mconf-Live, a customized version of BigBlueButton, and Mconf-Web, a web portal where people can collaborate asynchronously, schedule and participate in web conferences.
+- question: Where can I try Mconf?
+  answer: At <a href="https://mconf.org">mconf.org</a> you can create an account and test Mconf for free.
+- question: What is Mconf-Live?
+  answer: Mconf-Live is a "fork" of BigBlueButton, a customized version developed by and for Mconf. By “customized” we mean that it was not only configured, but developed specifically for Mconf.
+- question: What are the differences of Mconf-Live and BigBlueButton?
+  answer: Historically Mconf-Live used to be a software based on BigBlueButton with a set of new features, that were developed only for Mconf. But as the developers of Mconf and BigBlueButton grow closer and the projects integrated more, the differences between Mconf-Live and BigBlueButton got smaller. Currently the differences between the two applications are just temporary, existing only during the period of time right after they are developed for one of the applications and before they are integrated into the other.

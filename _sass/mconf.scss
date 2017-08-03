@@ -1,7 +1,8 @@
 body {
 	font-size: 1.7em;
 	line-height: 1.65em;
-	color: #24292e;
+	/* color: #24292e; */
+  color: #575757;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -52,4 +53,16 @@ section.notification {
   padding: 8px 16px;
   text-align: center;
   color: #f6f6f6;
+}
+
+section.title-archived {
+  background: #f6f6f6;
+  padding: 8px 16px;
+  color: #666;
+  margin: 0 0 24px 0;
+
+  h1 {
+    color: #666;
+    margin-bottom: 16px;
+  }
 }

@@ -17,7 +17,7 @@ description: Mconf knowledge archives
 
 permalink: /:categories/:title/
 
-plugins_dir:
+gems:
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-feed

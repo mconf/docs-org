@@ -1,5 +1,15 @@
 # Mconf Docs
 
+These docs are created using [Jekyll](https://jekyllrb.com/) with a customized version of a template called [Base](https://github.com/CloudCannon/base-jekyll-template).
+
+## Contributing
+
+1. Fork this repository.
+2. Add your markdown file to `_posts`, use a date in the filename.
+3. Add the [front matter](https://jekyllrb.com/docs/frontmatter/), a block at the top between `---` marks. It's usually easier to just copy from other posts.
+4. Edit the front matter: set a date, title, description and the categories of your post.
+5. Send a pull request with it.
+
 ## Develop
 
 Base was built with [Jekyll](http://jekyllrb.com/).
@@ -65,6 +75,7 @@ In the docs website:
 * Update this readme
 * Warn/alert sections to use on pages with important information
 * Better ordering, some articles are way more important than others (use colors? pinned posts?)
+* Tags
 
 # Template
 

@@ -35,6 +35,8 @@ collections:
 # Conversion
 markdown: kramdown
 highlighter: rouge
+kramdown:
+  input: GFM
 
 jekyll-archives:
   enabled: ['categories']

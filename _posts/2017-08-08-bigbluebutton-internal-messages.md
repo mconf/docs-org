@@ -1393,3 +1393,15 @@ type: Document
      version: '0.0.1',
      timestamp: 11737611 } }
 ```
+
+### meeting_destroyed_event
+
+```js
+{ payload:
+   { meeting_id: '28311eecec6394e5c51be47a4eed381ab7f156c6-1502470514081' },
+  header:
+   { name: 'meeting_destroyed_event',
+     version: '0.0.1',
+     current_time: '1502470522712',
+     timestamp: 95578982 } }
+```

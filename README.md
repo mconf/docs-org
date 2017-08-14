@@ -75,6 +75,7 @@ In the docs website:
 * Update this readme
 * Warn/alert sections to use on pages with important information
 * Better ordering, some articles are way more important than others (use colors? pinned posts?)
+* Categories such as "archived posts" for old posts and "draft" for unfinished articles.
 * Tags
 
 # Template

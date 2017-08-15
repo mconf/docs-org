@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	  <head>
+		    <meta charset="utf-8">
+		    <meta name="viewport" content="width=device-width, initial-scale=1">
+		    <meta name="generator" content="Jekyll v3.4.3">
+
+		    <link rel="stylesheet" href="/css/screen.css">
+		    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+		    <link rel="icon" type="image/png" href="/touch-icon.png" sizes="192x192">
+		    <link rel="icon" type="image/png" href="/images/favicon.svg">
+		    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Merriweather:400italic,400,300italic,300,700,700italic|Open+Sans:400italic,600italic,700italic,700,600,400|Inconsolata:400,700">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+        <!-- Begin Jekyll SEO tag v2.1.0 -->
+<title>API LB - Mconf Docs</title>
+<meta property="og:title" content="API LB" />
+<meta name="description" content="The API of the Load Balancer" />
+<meta property="og:description" content="The API of the Load Balancer" />
+<link rel="canonical" href="/lb/apis/mconf-lb-api/" />
+<meta property="og:url" content="/lb/apis/mconf-lb-api/" />
+<meta property="og:site_name" content="Mconf Docs" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-01-30T00:00:00-02:00" />
+<script type="application/ld+json">
+{"@context": "http://schema.org",
+"@type": "BlogPosting",
+"headline": "API LB",
+"datePublished": "2017-01-30T00:00:00-02:00",
+"description": "The API of the Load Balancer",
+"publisher": {"@type": "Organization",
+"logo": {"@type": "ImageObject",
+"url": "/siteicon.png"}},
+"url": "/lb/apis/mconf-lb-api/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+		    
+	  </head>
+
+	  <body class="">
+		    <section class="notification">
+          This is a work in progress version of the new documentation for Mconf. Pages might still be incomplete or broken.
+		    </section>
+		    <header>
+			      <div class="wrapper">
+				        <section class="top-bar">
+					          <div class="logo"><a href="/"><img src="/images/logo-mconf.png" />
+</a></div>
+					          <a class="nav-toggle" id="open-nav" href="#">&#9776;</a>
+<nav>
+	<a class="editor-link btn" href="cloudcannon:collections/_data/navigation.yml" class="btn" style="padding: 5px;"><strong>&#9998;</strong> Edit navigation</a>
+	
+	
+
+		
+		<a href="/" class="">Tutorials</a>
+	
+	
+
+		
+		<a href="/videos/" class="">Videos</a>
+	
+	
+
+		
+		<a href="/faq/" class="">FAQ</a>
+	
+</nav>
+
+				        </section>
+				        <section class="hero_search">
+					          <h1>Mconf Docs</h1>
+					          <p>Everything you need to know about Mconf.</p>
+					          <form action="/search/" method="get">
+	<input type="search" name="q"  placeholder="What would you like to know?" autofocus>
+	<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</svg>
+	<input type="submit" value="Search" style="display: none;">
+</form>
+				        </section>
+			      </div>
+
+		    </header>
+		    <section class="content">
+			      <div class="wrapper">
+				        
+<section class="tutorial has-sidebar">
+  <section class="sidebar sticky">
+		<ul>
+			
+				<li><a href="#about">About</a></li>
+			
+				<li><a href="#root-path">Root path</a></li>
+			
+				<li><a href="#create">Create</a></li>
+			
+				<li><a href="#get-recordings">Get Recordings</a></li>
+			
+				<li><a href="#get-servers">Get Servers</a></li>
+			
+				<li><a href="#get-meeting-events">Get Meeting Events</a></li>
+			
+				<li><a href="#config-xml">Config XML</a></li>
+			
+				<li><a href="#all-calls-authorization">All calls: authorization</a></li>
+			
+				<li><a href="#standard-error-responses">Standard error responses</a></li>
+			
+				<li><a href="#current-limitations">Current limitations</a></li>
+			
+				<li><a href="#get-meetings">Get Meetings</a></li>
+			
+		</ul>
+	</section>
+	<section class="tutorial-content">
+
+    
+      <h1>API LB</h1>
+	  
+
+		
+
+		<div class="tutorial-main">
+			<h2 id="about">About</h2>
+
+<p>The Load Balancer (LB) implements <a href="http://code.google.com/p/bigbluebutton/wiki/081API">BigBlueButton’s standard API</a>, so that any application that integrates with Mconf-Live/BigBlueButton can also be used with the Load Balancer. This includes <a href="https://github.com/mconf/mconf-web/wiki">Mconf-Web</a> and the integrations listed in <a href="http://www.bigbluebutton.org/open-source-integrations/">BigBlueButton’s website</a>.</p>
+
+<p>However, the LB’s API currently has some small differences from BigBlueButton’s API and more could be added in the future. But it is extremely important that, even with these small differences, the existent 3rd-party applications should not need to be adapted to use the Mconf infrastructure.</p>
+
+<p>This API is built on top of the API of the <strong>latest Mconf-Live</strong>, that is based on <strong>BigBlueButton 0.81</strong>. Therefore, it supports everything from this version of Mconf-Live, with the differences described below and with a few restrictions described in the end of this page. To see everything that is supported by this API, read also these links:</p>
+
+<ul>
+  <li>Latest version of Mconf-Live: https://github.com/mconf/wiki/wiki/Mconf-Live-API-Changes</li>
+  <li>Base version of BigBlueButton in use: http://code.google.com/p/bigbluebutton/wiki/081API</li>
+</ul>
+
+<p>The differences between the API of the LB and the API of Mconf-Live/BigBlueButton are described below, as well as are the new API calls that were added to the LB.</p>
+
+<h2 id="root-path">Root path</h2>
+
+<h4 id="base-url">Base URL</h4>
+
+<p><code class="highlighter-rouge">/bigbluebutton/api/</code></p>
+
+<h4 id="what-changed">What changed</h4>
+
+<p>Accessing the root path of the API will return information about the server. In the Load Balancer some information was added to the <strong>response</strong> to include details about itself.</p>
+
+<h4 id="response">Response</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Change</th>
+      <th style="text-align: center">Param Name</th>
+      <th style="text-align: center">When Returned</th>
+      <th style="text-align: center">Type</th>
+      <th style="text-align: center">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Added</td>
+      <td style="text-align: center"><code class="highlighter-rouge">custom</code></td>
+      <td style="text-align: center">Always</td>
+      <td style="text-align: center">Block</td>
+      <td style="text-align: center">Only a tag to group other tags.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Added</td>
+      <td style="text-align: center"><code class="highlighter-rouge">name</code></td>
+      <td style="text-align: center">Always</td>
+      <td style="text-align: center">String</td>
+      <td style="text-align: center">Name of the application.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Added</td>
+      <td style="text-align: center"><code class="highlighter-rouge">version</code></td>
+      <td style="text-align: center">Always</td>
+      <td style="text-align: center">String</td>
+      <td style="text-align: center">Current version of the application.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Added</td>
+      <td style="text-align: center"><code class="highlighter-rouge">deploy</code></td>
+      <td style="text-align: center">Always</td>
+      <td style="text-align: center">Number</td>
+      <td style="text-align: center">Current deploy number (incremental since the first deploy).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Added</td>
+      <td style="text-align: center"><code class="highlighter-rouge">revision</code></td>
+      <td style="text-align: center">Always</td>
+      <td style="text-align: center">String</td>
+      <td style="text-align: center">Current git revision.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example-response">Example response</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+   <span class="nt">&lt;returncode&gt;</span>SUCCESS<span class="nt">&lt;/returncode&gt;</span>
+   <span class="nt">&lt;version&gt;</span>0.8<span class="nt">&lt;/version&gt;</span>
+   <span class="nt">&lt;custom&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+      <span class="nt">&lt;name&gt;</span>mconf-lb<span class="nt">&lt;/name&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+      <span class="nt">&lt;version&gt;</span>0.3.0<span class="nt">&lt;/version&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+      <span class="nt">&lt;deploy&gt;</span>16<span class="nt">&lt;/deploy&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+      <span class="nt">&lt;revision&gt;</span>66c201586e9eecf233108cfb69ff771de3b21d6a<span class="nt">&lt;/revision&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+   <span class="nt">&lt;/custom&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="create">Create</h2>
+
+<h4 id="base-url-1">Base URL</h4>
+
+<p><code class="highlighter-rouge">/bigbluebutton/api/create</code></p>
+
+<h4 id="what-changed-1">What changed</h4>
+
+<p>Some metadata keys are used internally by the Load Balancer, so they <strong>cannot</strong> be used by the integrations. If a <code class="highlighter-rouge">create</code> call has one of the reserved metadata keys, the Load Balancer will respond with an error.</p>
+
+<h4 id="restricted-keys">Restricted keys</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Key</th>
+      <th style="text-align: center">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">mconflb-guid</code></td>
+      <td style="text-align: center">A globally unique identifier used to identify the load balancer</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">mconflb-institution</code></td>
+      <td style="text-align: center">The institution (id) that created the meeting</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">mconflb-institution-name</code></td>
+      <td style="text-align: center">The institution (name) that created the meeting</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">mconflb-rec-server</code></td>
+      <td style="text-align: center">The recording server (id) where the recording will be stored</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">mconflb-rec-server-url</code></td>
+      <td style="text-align: center">The recording server (url) where the recording will be stored</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">mconflb-rec-server-key</code></td>
+      <td style="text-align: center">The recording server (public key) where the recording will be stored</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example-response-1">Example response</h4>
+
+<p>This response will be returned if any of the metadata keys in the table above are used in a <code class="highlighter-rouge">create</code> call. This is a failure response, so the <code class="highlighter-rouge">create</code> call will <strong>not</strong> be completed (i.e. the meeting will not be created).</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+   <span class="nt">&lt;returncode&gt;</span>FAILED<span class="nt">&lt;/returncode&gt;</span>
+   <span class="nt">&lt;messageKey&gt;</span>invalidParameters<span class="nt">&lt;/messageKey&gt;</span>
+   <span class="nt">&lt;message&gt;</span>The URL you supplied has parameters that are not accepted.<span class="nt">&lt;/message&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="create-via-post">Create via POST</h4>
+
+<p>Works in the same way it is done in <a href="http://code.google.com/p/bigbluebutton/wiki/081API#Preupload_Slides">BigBlueButton’s API</a> (read this link for more details) and is used to pre-upload slides when a meeting is created.</p>
+
+<p>To test it you can use the command line tool <code class="highlighter-rouge">curl</code>. First save the following content in a file named <code class="highlighter-rouge">post_data.xml</code>:</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span> 
+<span class="nt">&lt;modules&gt;</span> 
+    <span class="nt">&lt;module</span> <span class="na">name=</span><span class="s">"presentation"</span><span class="nt">&gt;</span> 
+        <span class="nt">&lt;document</span> <span class="na">url=</span><span class="s">"http://www.samplepdf.com/sample.pdf"</span> <span class="nt">/&gt;</span> 
+    <span class="nt">&lt;/module&gt;</span> 
+<span class="nt">&lt;/modules&gt;</span> 
+</code></pre>
+</div>
+<p>Then generate a link to a create call and run:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -i -X POST --data-binary @post_data.xml <span class="s1">'&lt;your create call link&gt;'</span> --header <span class="s2">"Content-Type:application/xml"</span> 
+</code></pre>
+</div>
+<p>Then, when you join the target web conference you should see <a href="http://www.samplepdf.com/sample.pdf">this pdf</a> as the startup presentation.</p>
+
+<p>You can also test it using the <a href="http://mconf.github.io/api-mate/">API Mate</a>.</p>
+
+<h4 id="indicating-a-preferred-server">Indicating a preferred server</h4>
+
+<p>Using <code class="highlighter-rouge">preferredServer=&lt;server&gt;</code> as an extra parameter in a <code class="highlighter-rouge">create</code> call, the caller is able to select a server in which the web conference will be created in spite of the load balancing algorithm. If the entered server is invalid, does not correspond to a server in the load balancer, or corresponds to a server that is disabled, this parameter will be ignored and a server will be selected using the standard load balancing algorithm. Only a single server can be passed at a time.</p>
+
+<p>The identifier for a server is the server’s IP or domain name. In the Mconf Network, these identifiers are the names shown <a href="http://lb2.mconf.org/dashboard">in the dashboard</a> (e.g. <code class="highlighter-rouge">rnp-bsb.mconf.org</code> and <code class="highlighter-rouge">mconf1.ufrgs.br</code>). To get the list of servers available programmatically, use the API call <a href="#wiki-get-servers"><code class="highlighter-rouge">getServers</code></a></p>
+
+<p>Example call:</p>
+
+<div class="language-text highlighter-rouge"><pre class="highlight"><code>http://yourserver.com/bigbluebutton/api/create?name=abc&amp;meetingID=abc&amp;record=false&amp;preferredServer=143.10.10.198&amp;checksum=345bc221f9e332702d77fdbac3862636c8aba239
+</code></pre>
+</div>
+
+<h4 id="passing-a-voice-bridge">Passing a voice bridge</h4>
+
+<p>Voice bridges are the internal numbers used by the web conference server to identify the channel used to share voice in a meeting. A voice bridge can be passed to the <code class="highlighter-rouge">create</code> call using the parameter <code class="highlighter-rouge">voiceBridge</code>.</p>
+
+<p>Recommended values for voice bridges are five-digits numbers starting with 7 (i.e. <code class="highlighter-rouge">[70000..79999]</code>).</p>
+
+<p>There’s a particularity of the load balancer in dealing with voice bridges: it will not allow duplicated voice bridges in a single server. So if you pass a voice bridge in the <code class="highlighter-rouge">create</code> call and this voice bridge is already being used <em>in the server that was selected to hold your meeting</em>, the load balancer will automatically generate a unique voice bridge for your meeting and use this new number. This number is then returned in the response of the <code class="highlighter-rouge">create</code> call.</p>
+
+<p>If your voice bridge is already being used but by a meeting <em>in a different server</em>, then there’s no problem, the voice bridge you informed will be used.</p>
+
+<p>Overall, integrations should <em>always</em> check the response of the <code class="highlighter-rouge">create</code> call to see if the voice bridge passed in the parameters was the one actually used to create the meeting.</p>
+
+<h2 id="get-recordings">Get Recordings</h2>
+
+<p>What changed: Parameters were added to the API call.</p>
+
+<h4 id="base-url-2">Base URL</h4>
+
+<p><code class="highlighter-rouge">/bigbluebutton/api/getRecordings</code></p>
+
+<p>Parameters:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Change</th>
+      <th style="text-align: center">Param Name</th>
+      <th style="text-align: center">When Returned</th>
+      <th style="text-align: center">Type</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Added</td>
+      <td style="text-align: center"><code class="highlighter-rouge">meta</code></td>
+      <td style="text-align: center">Optional</td>
+      <td style="text-align: center">String</td>
+      <td style="text-align: left">You can pass one or more metadata values to filter the recordings returned. If multiple metadata values are passed, will only return recordings that match <em>all</em> of them. The format of these parameters is the same as the metadata passed to the <code class="highlighter-rouge">create</code> call. For more information see <a href="https://code.google.com/p/bigbluebutton/wiki/API#Create_Meeting">this page</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: If multiple filtering parameters are used in conjunction (e.g. <code class="highlighter-rouge">meta_</code> and <code class="highlighter-rouge">meetingID</code>), only recordings that match <em>all</em> of the parameters passed will be returned.</p>
+
+<p>Example Requests:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>http://yourserver.com/bigbluebutton/api/getRecordings?meta_presenter<span class="o">=</span>joe&amp;meta_category<span class="o">=</span>education&amp;checksum<span class="o">=</span>1234
+</code></pre>
+</div>
+
+<h2 id="get-servers">Get Servers</h2>
+
+<p>This is a custom API call available only on the Load Balancer.</p>
+
+<h4 id="base-url-3">Base URL</h4>
+
+<p><code class="highlighter-rouge">/bigbluebutton/api/getServers</code></p>
+
+<h4 id="description">Description</h4>
+
+<p>Returns a list of servers available in the Load Balancer with information about their status, geographic position and address.</p>
+
+<h4 id="example-call">Example call:</h4>
+
+<div class="language-text highlighter-rouge"><pre class="highlight"><code>http://yourserver.com/bigbluebutton/api/getServers?checksum=146ad52c5c82b4d948b661eb87cf6c09bd2a73fa
+</code></pre>
+</div>
+
+<h4 id="example-response-2">Example response:</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+  <span class="nt">&lt;returncode&gt;</span>SUCCESS<span class="nt">&lt;/returncode&gt;</span>
+  <span class="nt">&lt;servers&gt;</span>
+    <span class="nt">&lt;server&gt;</span> <span class="c">&lt;!-- a server that is enabled --&gt;</span>
+      <span class="nt">&lt;name&gt;</span>server1.org<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;address&gt;</span>server1.org<span class="nt">&lt;/address&gt;</span>
+      <span class="nt">&lt;url&gt;</span>http://server1.org<span class="nt">&lt;/url&gt;</span>
+      <span class="nt">&lt;apiUrl&gt;</span>http://server1.org/bigbluebutton/api<span class="nt">&lt;/apiUrl&gt;</span>
+      <span class="nt">&lt;status&gt;</span>2<span class="nt">&lt;/status&gt;</span>
+      <span class="nt">&lt;disableState&gt;</span>2<span class="nt">&lt;/disableState&gt;</span>
+      <span class="nt">&lt;geoloc&gt;</span>
+        <span class="nt">&lt;address&gt;</span>server1.org<span class="nt">&lt;/address&gt;</span>
+        <span class="nt">&lt;ip&gt;</span>200.0.1.2<span class="nt">&lt;/ip&gt;</span>
+        <span class="nt">&lt;countryCode&gt;</span>BR<span class="nt">&lt;/countryCode&gt;</span>
+        <span class="nt">&lt;countryCode3&gt;</span>BRA<span class="nt">&lt;/countryCode3&gt;</span>
+        <span class="nt">&lt;countryName&gt;</span>Brazil<span class="nt">&lt;/countryName&gt;</span>
+        <span class="nt">&lt;city&gt;</span>Porto Alegre<span class="nt">&lt;/city&gt;</span>
+        <span class="nt">&lt;latitude&gt;</span>-30.033300399780273<span class="nt">&lt;/latitude&gt;</span>
+        <span class="nt">&lt;longitude&gt;</span>-51.20000076293945<span class="nt">&lt;/longitude&gt;</span>
+        <span class="nt">&lt;continentCode&gt;</span>SA<span class="nt">&lt;/continentCode&gt;</span>
+      <span class="nt">&lt;/geoloc&gt;</span>
+      <span class="nt">&lt;isDisabled&gt;</span>false<span class="nt">&lt;/isDisabled&gt;</span>
+    <span class="nt">&lt;/server&gt;</span>
+    <span class="nt">&lt;server&gt;</span> <span class="c">&lt;!-- a server that is disabled --&gt;</span>
+      <span class="nt">&lt;name&gt;</span>server2.org<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;address&gt;</span>server2.org<span class="nt">&lt;/address&gt;</span>
+      <span class="nt">&lt;url&gt;</span>http://server2.org<span class="nt">&lt;/url&gt;</span>
+      <span class="nt">&lt;status&gt;</span>2<span class="nt">&lt;/status&gt;</span>
+      <span class="nt">&lt;disableState&gt;</span>1<span class="nt">&lt;/disableState&gt;</span>
+      <span class="nt">&lt;geoloc&gt;</span>
+        <span class="nt">&lt;address&gt;</span>server2.org<span class="nt">&lt;/address&gt;</span>
+        <span class="nt">&lt;ip&gt;</span>81.0.1.2<span class="nt">&lt;/ip&gt;</span>
+        <span class="nt">&lt;countryCode&gt;</span>DE<span class="nt">&lt;/countryCode&gt;</span>
+        <span class="nt">&lt;countryCode3&gt;</span>DEU<span class="nt">&lt;/countryCode3&gt;</span>
+        <span class="nt">&lt;countryName&gt;</span>Germany<span class="nt">&lt;/countryName&gt;</span>
+        <span class="nt">&lt;city&gt;</span>Berlin<span class="nt">&lt;/city&gt;</span>
+        <span class="nt">&lt;latitude&gt;</span>50.033987987897<span class="nt">&lt;/latitude&gt;</span>
+        <span class="nt">&lt;longitude&gt;</span>13.20890898799<span class="nt">&lt;/longitude&gt;</span>
+        <span class="nt">&lt;continentCode&gt;</span>EU<span class="nt">&lt;/continentCode&gt;</span>
+      <span class="nt">&lt;/geoloc&gt;</span>
+      <span class="nt">&lt;isDisabled&gt;</span>true<span class="nt">&lt;/isDisabled&gt;</span>
+    <span class="nt">&lt;/server&gt;</span>
+  <span class="nt">&lt;/servers&gt;</span>
+<span class="nt">&lt;response&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="parameters">Parameters</h4>
+
+<p>This call requires no parameters.</p>
+
+<h4 id="tags-in-the-response">Tags in the response</h4>
+
+<p>Tags in the response:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">parameter</th>
+      <th style="text-align: center">type</th>
+      <th style="text-align: center">meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">name</td>
+      <td style="text-align: center">string</td>
+      <td style="text-align: center">The string used to identify this server in the Load Balancer</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">address</td>
+      <td style="text-align: center">string</td>
+      <td style="text-align: center">The IP or domain of the server</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">url</td>
+      <td style="text-align: center">string</td>
+      <td style="text-align: center">The full URL of the server, including protocol and port (if not a default port)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">apiUrl</td>
+      <td style="text-align: center">string</td>
+      <td style="text-align: center">The full URL of the server including the API path. The URL that should be used to call API methods in this server.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">status</td>
+      <td style="text-align: center">integer</td>
+      <td style="text-align: center">The status of the server in the monitoring system. Can be: <code class="highlighter-rouge">0</code> undefined; <code class="highlighter-rouge">1</code> pending (a request is being made); <code class="highlighter-rouge">2</code> up (the server is up and running); <code class="highlighter-rouge">3</code> down (the server is down); <code class="highlighter-rouge">4</code> unreachable (the server is unreachable). These statuses are based on <a href="http://nagios.sourceforge.net/docs/3_0/hostchecks.html">the statuses of hosts on nagios</a>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">disableState</td>
+      <td style="text-align: center">boolean</td>
+      <td style="text-align: center">The flag that controls whether the server is <code class="highlighter-rouge">0</code> forcibly enabled; <code class="highlighter-rouge">1</code> forcibly disabled; or <code class="highlighter-rouge">3</code> in automatic mode. Automatic mode means that the server will be automatically disabled if its monitoring information are indicating the load balancer to disable it (according to rules specified in the load balancer). For example, if the CPU load is higher than ~70% or if the server is not responding at all. The other modes are used by admins to forcibly enable or disable a server, ignoring the status of the services.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">geoloc</td>
+      <td style="text-align: center">-</td>
+      <td style="text-align: center">A tag with nested tags including information about the geographic location of the server. This location is acquired from <a href="http://www.maxmind.com/en/geolocation_landing">GeoIP</a> using the server’s address. <em>Any</em> of its nested tags can be empty. The available tags are shown in the example above.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">isDisabled</td>
+      <td style="text-align: center">boolean</td>
+      <td style="text-align: center"><code class="highlighter-rouge">true</code> if the server is disabled (either by an administrator or automatically by the Load Balancer), or <code class="highlighter-rouge">false</code> otherwise. Notice that if <code class="highlighter-rouge">disabledByLB</code> is <code class="highlighter-rouge">true</code>, this will always be <code class="highlighter-rouge">true</code> as well, otherwise this can be either <code class="highlighter-rouge">true</code> (disabled by an admin) or <code class="highlighter-rouge">false</code> (the server is enabled). If you just need to know if the server is enabled or not and don’t need to know the reasons, use this flag.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="possible-failure-responses">Possible failure responses</h4>
+
+<ul>
+  <li>Invalid checksum (returns the standard response as returned by BigBlueButton/Mconf-Live, see an example in <a href="#wiki-standard-error-responses">this section</a>)</li>
+  <li>Unauthorized access (read <a href="#wiki-all-calls-authorization">this section</a>)</li>
+</ul>
+
+<h2 id="get-meeting-events">Get Meeting Events</h2>
+
+<p>This is a custom API call available only on the Load Balancer.</p>
+
+<h4 id="base-url-4">Base URL</h4>
+
+<p><code class="highlighter-rouge">/bigbluebutton/api/getMeetingEvents</code></p>
+
+<h4 id="description-1">Description</h4>
+
+<p>Returns a list of meetings that happened during the period selected and the users that participated in these meetings.</p>
+
+<p>This call requires no parameters. If no parameters are specified, the call will return <strong>the last 50 meetings that had at least 1 user in it</strong>. The response is always <strong>ordered by <code class="highlighter-rouge">createdAt</code> (when the meeting started) in descending order (the last meetings that happened are in the top)</strong>.</p>
+
+<h4 id="example-calls">Example calls</h4>
+
+<div class="language-text highlighter-rouge"><pre class="highlight"><code>http://yourserver.com/bigbluebutton/api/getMeetingEvents?checksum=146ad52c5c82b4d948b661eb87cf6c09bd2a73fa
+http://yourserver.com/bigbluebutton/api/getMeetingEvents?createdAt=2014-01-10&amp;createdAt=2014-01-20&amp;users=2&amp;limit=20&amp;checksum=146ad52c5c82b4d948b661eb87cf6c09bd2a73fa
+</code></pre>
+</div>
+
+<h4 id="example-response-3">Example response</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+  <span class="nt">&lt;returncode&gt;</span>SUCCESS<span class="nt">&lt;/returncode&gt;</span>
+  <span class="nt">&lt;events&gt;</span>
+    <span class="nt">&lt;event&gt;</span> <span class="c">&lt;!-- a meeting that had participants --&gt;</span>
+      <span class="nt">&lt;meetingID&gt;</span>random-789<span class="nt">&lt;/meetingID&gt;</span>
+      <span class="nt">&lt;name&gt;</span>random-789<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;createdAt&gt;</span>1391035535000<span class="nt">&lt;/createdAt&gt;</span>
+      <span class="nt">&lt;endedAt&gt;</span>1391035779000<span class="nt">&lt;/endedAt&gt;</span>
+      <span class="nt">&lt;server&gt;</span>
+        <span class="nt">&lt;name&gt;</span>server1.mconf.org<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;url&gt;</span>http://server1.mconf.org<span class="nt">&lt;/url&gt;</span>
+      <span class="nt">&lt;/server&gt;</span>
+      <span class="nt">&lt;users&gt;</span>
+        <span class="nt">&lt;user&gt;</span>
+          <span class="nt">&lt;name&gt;</span>User 7181646<span class="nt">&lt;/name&gt;</span>
+          <span class="nt">&lt;role&gt;</span>moderator<span class="nt">&lt;/role&gt;</span>
+          <span class="nt">&lt;createdAt&gt;</span>1391035535000<span class="nt">&lt;/createdAt&gt;</span>
+        <span class="nt">&lt;/user&gt;</span>
+      <span class="nt">&lt;/users&gt;</span>
+      <span class="nt">&lt;query&gt;</span>
+        <span class="nt">&lt;attendeePW&gt;</span>ap<span class="nt">&lt;/attendeePW&gt;</span>
+        <span class="nt">&lt;meetingID&gt;</span>random-789<span class="nt">&lt;/meetingID&gt;</span>
+        <span class="nt">&lt;meta_community&gt;</span>English Class 2<span class="nt">&lt;/meta_community&gt;</span>
+        <span class="nt">&lt;meta_origin&gt;</span>myserver<span class="nt">&lt;/meta_origin&gt;</span>
+        <span class="nt">&lt;meta_room_id&gt;</span>123<span class="nt">&lt;/meta_room_id&gt;</span>
+        <span class="nt">&lt;moderatorPW&gt;</span>mp<span class="nt">&lt;/moderatorPW&gt;</span>
+        <span class="nt">&lt;name&gt;</span>random-789<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;record&gt;</span>false<span class="nt">&lt;/record&gt;</span>
+        <span class="nt">&lt;voiceBridge&gt;</span>75842<span class="nt">&lt;/voiceBridge&gt;</span>
+        <span class="nt">&lt;welcome&gt;&lt;br&gt;</span>Welcome to <span class="nt">&lt;b&gt;</span>%%CONFNAME%%<span class="nt">&lt;/b&gt;</span>!<span class="nt">&lt;/welcome&gt;</span>
+      <span class="nt">&lt;/query&gt;</span>
+    <span class="nt">&lt;/event&gt;</span>
+    <span class="nt">&lt;event&gt;</span> <span class="c">&lt;!-- a meeting that had no participants --&gt;</span>
+      <span class="nt">&lt;meetingID&gt;</span>random-123<span class="nt">&lt;/meetingID&gt;</span>
+      <span class="nt">&lt;name&gt;</span>random-123<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;createdAt&gt;</span>1391035256000<span class="nt">&lt;/createdAt&gt;</span>
+      <span class="nt">&lt;endedAt&gt;</span>1391035353000<span class="nt">&lt;/endedAt&gt;</span>
+      <span class="nt">&lt;server&gt;</span>
+        <span class="nt">&lt;name&gt;</span>server2.mconf.org<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;url&gt;</span>http://server2.mconf.org<span class="nt">&lt;/url&gt;</span>
+      <span class="nt">&lt;/server&gt;</span>
+      <span class="nt">&lt;users</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;query&gt;</span>
+        <span class="nt">&lt;meetingID&gt;</span>random-123<span class="nt">&lt;/meetingID&gt;</span>
+      <span class="nt">&lt;/query&gt;</span>
+    <span class="nt">&lt;/event&gt;</span>
+  <span class="nt">&lt;/events&gt;</span>
+<span class="nt">&lt;response&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="example-of-an-empty-response">Example of an empty response</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+  <span class="nt">&lt;returncode&gt;</span>SUCCESS<span class="nt">&lt;/returncode&gt;</span>
+  <span class="nt">&lt;events/&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="parameters-1">Parameters</h4>
+
+<p>No parameters are required, but the following parameters are accepted:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Param Name</th>
+      <th style="text-align: center">Required / Optional</th>
+      <th style="text-align: center">Type</th>
+      <th style="text-align: center">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">createdAt</code></td>
+      <td style="text-align: center">Optional</td>
+      <td style="text-align: center">Date</td>
+      <td style="text-align: center">Return only meetings created on this day or later. Use the format <code class="highlighter-rouge">YYYY-MM-DD</code> (year-month-day).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">endedAt</code></td>
+      <td style="text-align: center">Optional</td>
+      <td style="text-align: center">Date</td>
+      <td style="text-align: center">Return only meetings that ended on this day or before it. Meetings that are happening right now will not be returned. Use the format <code class="highlighter-rouge">YYYY-MM-DD</code> (year-month-day).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">users</code></td>
+      <td style="text-align: center">Optional</td>
+      <td style="text-align: center">Number</td>
+      <td style="text-align: center">Return only meetings that had at least this number of users (default: 1).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">limit</code></td>
+      <td style="text-align: center">Optional</td>
+      <td style="text-align: center">Number</td>
+      <td style="text-align: center">Limit the number of results (default: 50; maximum: 100).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="tags-in-the-response-1">Tags in the response</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">parameter</th>
+      <th style="text-align: center">type</th>
+      <th style="text-align: center">meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">meetingID</td>
+      <td style="text-align: center">string</td>
+      <td style="text-align: center">The ID the identifies the meeting, as used in the <code class="highlighter-rouge">create</code> call.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">name</td>
+      <td style="text-align: center">string</td>
+      <td style="text-align: center">The name of the meeting, as used in the <code class="highlighter-rouge">create</code> call.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">createdAt</td>
+      <td style="text-align: center">timestamp</td>
+      <td style="text-align: center">The timestamp for when the meeting was created (when the <code class="highlighter-rouge">create</code> call was performed).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">endedAt</td>
+      <td style="text-align: center">timestamp</td>
+      <td style="text-align: center">The timestamp for when the meeting ended.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">server</td>
+      <td style="text-align: center">-</td>
+      <td style="text-align: center">A tag with nested tags that describe the server in which the meeting happened. Contains the tags: <code class="highlighter-rouge">name</code>: a string that identifies the server in the Load Balancer; <code class="highlighter-rouge">url</code>: the base URL of the server.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">users</td>
+      <td style="text-align: center">-</td>
+      <td style="text-align: center">A list of all the users that participated in the meeting. See details in the table below.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">query</td>
+      <td style="text-align: center">-</td>
+      <td style="text-align: center">A list of all the parameters passed to the <code class="highlighter-rouge">create</code> call when this meeting was created. Used specially to get additional metadata that was passed to the <code class="highlighter-rouge">create</code> call.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Tags inside <code class="highlighter-rouge">&lt;users&gt;</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">parameter</th>
+      <th style="text-align: center">type</th>
+      <th style="text-align: center">meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">name</td>
+      <td style="text-align: center">string</td>
+      <td style="text-align: center">The name of the user, the same as <code class="highlighter-rouge">fullName</code> in a <code class="highlighter-rouge">join</code> call.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">role</td>
+      <td style="text-align: center">string</td>
+      <td style="text-align: center">The role of the user in the meeting, one of the options: <code class="highlighter-rouge">attendee</code>, <code class="highlighter-rouge">moderator</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">createdAt</td>
+      <td style="text-align: center">timestamp</td>
+      <td style="text-align: center">The timestamp for when the user joined the meeting (when the <code class="highlighter-rouge">join</code> call was performed).</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: This call might return several <code class="highlighter-rouge">&lt;user&gt;</code> blocks for the same person in case that person joined the meeting several times. Each <code class="highlighter-rouge">&lt;user&gt;</code> block correspond to a <code class="highlighter-rouge">join</code> call, and will have a different <code class="highlighter-rouge">createdAt</code> than the other blocks for the same user.</p>
+
+<h4 id="possible-failure-responses-1">Possible failure responses</h4>
+
+<ul>
+  <li>Invalid checksum (returns the standard response as returned by BigBlueButton/Mconf-Live, see an example in <a href="#wiki-standard-error-responses">this section</a>)</li>
+  <li>Unauthorized access (read <a href="#wiki-all-calls-authorization">this section</a>)</li>
+  <li>Invalid parameter (see an example in <a href="#wiki-standard-error-responses">this section</a>)</li>
+</ul>
+
+<h2 id="config-xml">Config XML</h2>
+
+<p>Calls to set the <code class="highlighter-rouge">config.xml</code> in a web conference server are calls from Mconf-Live/BigBlueButton that are also implemented in the LB. There are a few differences in these calls when made to the LB that you should be aware of.</p>
+
+<h4 id="base-url-5">Base URL</h4>
+
+<p><code class="highlighter-rouge">/bigbluebutton/api/getDefaultConfigXML</code></p>
+
+<p><code class="highlighter-rouge">/bigbluebutton/api/setConfigXML</code></p>
+
+<h4 id="getdefaultconfigxml">getDefaultConfigXML</h4>
+
+<p>Will return the default <code class="highlighter-rouge">config.xml</code> file that can be used to customize any of the servers connected to the LB.</p>
+
+<h5 id="differences-from-mconf-livebigbluebutton">Differences from Mconf-Live/BigBlueButton</h5>
+
+<p>In the XML in the response, all URLs will be relative to the LB. So the response might include a tag like the one below:</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;skinning</span> <span class="na">enabled=</span><span class="s">"true"</span> <span class="na">url=</span><span class="s">"http://lb.mconf.org/client/branding/css/BBBDefault.css.swf"</span><span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<p>You can see the URL pointing to <code class="highlighter-rouge">http://lb.mconf.org/client/branding/css/BBBDefault.css.swf</code>, even though this URL works only in Mconf-Live/BigBlueButton servers and will return an error if you try to access it in the LB. But this is not wrong. The LB will automatically adjust the XML back to the correct URLs on <code class="highlighter-rouge">setConfigXML</code>.</p>
+
+<h4 id="setconfigxml">setConfigXML</h4>
+
+<p>Will set a <code class="highlighter-rouge">config.xml</code> in the server that is holding the target meeting.</p>
+
+<h5 id="differences-from-mconf-livebigbluebutton-1">Differences from Mconf-Live/BigBlueButton</h5>
+
+<p>The LB expects to receive a <code class="highlighter-rouge">config.xml</code> where all URLs point to the address of the LB, not to the address of the target web conference server! Just like the <code class="highlighter-rouge">config.xml</code> returned by the LB on <code class="highlighter-rouge">getDefaultConfigXML</code>. It will then automatically adjust the URLs to the target server.</p>
+
+<h2 id="all-calls-authorization">All calls: authorization</h2>
+
+<h4 id="what-changed-2">What changed</h4>
+
+<p>The LB checks whether the 3rd-party application is allowed to perform the actions it is trying to perform in the API. In a <code class="highlighter-rouge">create</code> call, for example, if the parameter <code class="highlighter-rouge">record</code> is set to <code class="highlighter-rouge">true</code>, the LB will check if the 3rd-party application is actually allowed to record meetings or not. If it is, the call proceeds as normal. Otherwise the LB responds with an error message.</p>
+
+<p><strong>All API calls</strong> are subjected to this verification, so all of the API calls could return one of the errors described below.</p>
+
+<h4 id="new-error-responses">New error responses</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">messageKey</th>
+      <th style="text-align: center">message</th>
+      <th style="text-align: center">When it happens?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">permissionDenied</code></td>
+      <td style="text-align: center">This application is not currently allowed to access this API.</td>
+      <td style="text-align: center">General error for whenever the application has no access at all to the API.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">permissionDenied</code></td>
+      <td style="text-align: center">This application is not allowed to record meetings.</td>
+      <td style="text-align: center">When a <code class="highlighter-rouge">create</code> call tries to record but the application is not allowed to.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">permissionDenied</code></td>
+      <td style="text-align: center">This application is not allowed to have any more concurrent meetings.</td>
+      <td style="text-align: center">When a <code class="highlighter-rouge">create</code> call fails because the 3rd-party application already reached its limit in the number of concurrent meetings.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example-of-an-error-response">Example of an error response</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+   <span class="nt">&lt;returncode&gt;</span>FAILED<span class="nt">&lt;/returncode&gt;</span>
+   <span class="nt">&lt;messageKey&gt;</span>permissionDenied<span class="nt">&lt;/messageKey&gt;</span>
+   <span class="nt">&lt;message&gt;</span>This application is not currently allowed to access this API.<span class="nt">&lt;/message&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="standard-error-responses">Standard error responses</h2>
+
+<p>This section contains examples of some standard error responses returned by the LB and, some of them, also by Mconf-Live/BigBlueButton. These are not all the possible error responses, just the most common ones.</p>
+
+<h4 id="checksum-error">Checksum error</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+  <span class="nt">&lt;returncode&gt;</span>FAILED<span class="nt">&lt;/returncode&gt;</span>
+  <span class="nt">&lt;messageKey&gt;</span>checksumError<span class="nt">&lt;/messageKey&gt;</span>
+  <span class="nt">&lt;message&gt;</span>You did not pass the checksum security check.<span class="nt">&lt;/message&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="invalid-meetingid">Invalid meetingID</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+  <span class="nt">&lt;returncode&gt;</span>FAILED<span class="nt">&lt;/returncode&gt;</span>
+  <span class="nt">&lt;messageKey&gt;</span>invalidMeetingIdentifier<span class="nt">&lt;/messageKey&gt;</span>
+  <span class="nt">&lt;message&gt;</span>The meeting ID that you supplied did not match any existing meetings.<span class="nt">&lt;/message&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="missing-meetingid">Missing meetingID</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+  <span class="nt">&lt;returncode&gt;</span>FAILED<span class="nt">&lt;/returncode&gt;</span>
+  <span class="nt">&lt;messageKey&gt;</span>missingParamMeetingID<span class="nt">&lt;/messageKey&gt;</span>
+  <span class="nt">&lt;message&gt;</span>You must specify a meeting ID for the meeting.<span class="nt">&lt;/message&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="invalid-parameters">Invalid parameters</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+  <span class="nt">&lt;returncode&gt;</span>FAILED<span class="nt">&lt;/returncode&gt;</span>
+  <span class="nt">&lt;messageKey&gt;</span>invalidParameters<span class="nt">&lt;/messageKey&gt;</span>
+  <span class="nt">&lt;message&gt;</span>The URL you supplied has parameters that are not accepted.<span class="nt">&lt;/message&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="current-limitations">Current limitations</h2>
+
+<p>There’s currently no knowledge of anything from in the API of Mconf-Live/BigBlueButton that is not available in the API of the Load Balancer :thumbsup:</p>
+
+<p>If you happen to come across anything missing in the API of the LB, please contact us.</p>
+
+<hr />
+
+<h1 id="in-development">In Development</h1>
+
+<h2 id="get-meetings">Get Meetings</h2>
+
+<h4 id="base-url-6">Base URL</h4>
+
+<p><code class="highlighter-rouge">/bigbluebutton/api/getMeetings</code></p>
+
+<h4 id="what-changed-3">What changed</h4>
+
+<p>Information was added to the <strong>response</strong>. It includes the server in which the meeting is being held.</p>
+
+<h4 id="example-response-4">Example response</h4>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;response&gt;</span>
+   <span class="nt">&lt;returncode&gt;</span>SUCCESS<span class="nt">&lt;/returncode&gt;</span>
+   <span class="nt">&lt;meetings&gt;</span>
+     <span class="nt">&lt;meeting&gt;</span>
+       <span class="nt">&lt;meetingID&gt;</span>93b8fac2-1373658348<span class="nt">&lt;/meetingID&gt;</span>
+       <span class="nt">&lt;meetingName&gt;</span>My Meeting<span class="nt">&lt;/meetingName&gt;</span>
+       <span class="nt">&lt;createTime&gt;</span>1410298186908<span class="nt">&lt;/createTime&gt;</span>
+       <span class="nt">&lt;attendeePW&gt;</span>ap<span class="nt">&lt;/attendeePW&gt;</span>
+       <span class="nt">&lt;moderatorPW&gt;</span>mp<span class="nt">&lt;/moderatorPW&gt;</span>
+       <span class="nt">&lt;hasBeenForciblyEnded&gt;</span>false<span class="nt">&lt;/hasBeenForciblyEnded&gt;</span>
+       <span class="nt">&lt;running&gt;</span>true<span class="nt">&lt;/running&gt;</span>
+       <span class="nt">&lt;participantCount&gt;</span>2<span class="nt">&lt;/participantCount&gt;</span>
+       <span class="nt">&lt;listenerCount&gt;</span>0<span class="nt">&lt;/listenerCount&gt;</span>
+       <span class="nt">&lt;videoCount&gt;</span>0<span class="nt">&lt;/videoCount&gt;</span>
+       <span class="nt">&lt;voiceBridge&gt;</span>75992<span class="nt">&lt;/voiceBridge&gt;</span>
+       <span class="nt">&lt;dialNumber&gt;</span>613-123-1234<span class="nt">&lt;/dialNumber&gt;</span>
+       <span class="nt">&lt;server&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+         <span class="nt">&lt;name&gt;</span>my-server.org<span class="nt">&lt;/name&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+         <span class="nt">&lt;address&gt;</span>my-server.org<span class="nt">&lt;/address&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+         <span class="nt">&lt;url&gt;</span>http://my-server.org<span class="nt">&lt;/url&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+       <span class="nt">&lt;/server&gt;</span> <span class="c">&lt;!-- Added --&gt;</span>
+     <span class="nt">&lt;/meeting&gt;</span>
+   <span class="nt">&lt;/meetings&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre>
+</div>
+
+		</div>
+		<div class="tutorial-share">
+			<a class="modalOpen no-smooth" href="#subscribe">
+			<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+		
+ Subscribe</a>
+			<a class="modalOpen no-smooth" href="#share">
+			<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+				<path d="M0 0h24v24H0z" fill="none"/>
+				<path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+			</svg>
+		
+ Share</a>
+		</div>
+	</section>
+</section>
+
+
+
+
+
+	<div class="related">
+		<h3>Related documents</h3>
+
+		<ul class="listing">
+	
+		<li >
+			<a href="/apis/webhooks-api/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+			  <path d="M0 0h24v24H0z" fill="none"/>
+		</svg>
+  
+</div>
+				<article>
+					<div>
+						<h3>API Webhooks</h3>
+						<p class="description">Description of the events triggered by the webhooks</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/bigbluebutton/bigbluebutton-internal-messages/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+			  <path d="M0 0h24v24H0z" fill="none"/>
+		</svg>
+  
+</div>
+				<article>
+					<div>
+						<h3>BigBlueButton Messages</h3>
+						<p class="description">A list of internal messages that go through redis on BigBlueButton</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-notas-compartilhadas/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Notas compartilhadas</h3>
+						<p class="description">Este tutorial mostra como funciona o módulo de notas compartilhadas no Mconf</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-moderacao/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Moderação e controle dos participantes</h3>
+						<p class="description">Este tutorial mostra as funções de moderação de usuários em uma conferência no Mconf.</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-layouts/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Modificar o layout da sessão</h3>
+						<p class="description">Este tutorial inclui informações sobre como modificar o layout (disposição e visibilidade das janelas internas) de uma conferência no Mconf</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-integracao-moodle/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Integração com o Moodle</h3>
+						<p class="description">Este tutorial mostra como funciona a integração do Mconf com o Moodle.</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-gravacao/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Gravação e visualização de gravações</h3>
+						<p class="description">Este tutorial mostra como gravar e como visualizar conferências no Mconf</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-documentos-e-quadro-branco/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Compartilhamento de documentos e quadro branco</h3>
+						<p class="description">Este tutorial ensina como compartilhar documentos em uma conferência e como interagir com o quadro branco</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-compartilhamento-de-tela-java/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Compartilhamento de tela (Java)</h3>
+						<p class="description">Este tutorial mostra como utilizar o compartilhamento de tela Java em uma conferência no Mconf</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/mconf-web/development/mconf-web-testing/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+			  <path d="M0 0h24v24H0z" fill="none"/>
+		</svg>
+  
+</div>
+				<article>
+					<div>
+						<h3>Testing Mconf-Web</h3>
+						<p class="description">Instructions to test Mconf-Web</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+</ul>
+
+	</div>
+
+
+
+
+<div id="subscribe" class="modalDialog">
+	<div>
+		<a title="Close" class="close">&times;</a>
+		<form action="" method="post">
+			<h2>Subscribe</h2>
+			<p>The latest tutorials sent straight to your inbox.</p>
+			<input type="email" name="EMAIL" placeholder="Email">
+			<input type="submit" value="Sign up">
+		</form>
+	</div>
+</div>
+
+<div id="share" class="modalDialog sharing">
+	<div>
+		<a title="Close" class="close">&times;</a>
+		<h2>Share</h2>
+		<p>Share this tutorial with your community.</p>
+		<ul>
+			<li><a class="twitter" target="_blank" href="https://twitter.com/intent/tweet?url=%2Flb%2Fapis%2Fmconf-lb-api%2F">
+		<svg class="twitter" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" /></svg>
+	
+ Twitter</a></li>
+			<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2Flb%2Fapis%2Fmconf-lb-api%2F">
+		<svg class="facebook" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="15.8 15.8 25 25"><path d="M32.8 24.7h-3.2v-2.1c0-0.8 0.5-1 0.9-1s2.3 0 2.3 0v-3.5l-3.1 0c-3.5 0-4.3 2.6-4.3 4.3v2.3h-2v3.6h2c0 4.6 0 10.2 0 10.2h4.2c0 0 0-5.6 0-10.2h2.8L32.8 24.7z"/></svg>
+	
+ Facebook</a></li>
+			<li><a class="google-plus" target="_blank" href="https://plus.google.com/share?url=%2Flb%2Fapis%2Fmconf-lb-api%2F">
+		<svg class="google-plus" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M23,11H21V9H19V11H17V13H19V15H21V13H23M8,11V13.4H12C11.8,14.4 10.8,16.4 8,16.4C5.6,16.4 3.7,14.4 3.7,12C3.7,9.6 5.6,7.6 8,7.6C9.4,7.6 10.3,8.2 10.8,8.7L12.7,6.9C11.5,5.7 9.9,5 8,5C4.1,5 1,8.1 1,12C1,15.9 4.1,19 8,19C12,19 14.7,16.2 14.7,12.2C14.7,11.7 14.7,11.4 14.6,11H8Z" /></svg>
+	
+ Google+</a></li>
+			<li><a class="hacker-news" target="_blank" href="http://news.ycombinator.com/submitlink?u=%2Flb%2Fapis%2Fmconf-lb-api%2F&t=API%20LB">
+		<svg class="hacker-news" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.8 3.3c-0.4 0.8-5.6 11.1-5.6 11.2 0 2 0 6.2 0 6.2 -0.1 0-2.2 0-2.3 0 0 0 0-5.9 0-6.2 0 0-5.5-10.9-5.6-11.1C5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3c0 0 0 0 0.1 0 0.9 0 1.7 0 2.6 0 0 0 0 0 0 0.1 0.1 0.1 4 8.3 4.1 8.3 0 0 4.2-8.3 4.3-8.4 0.8 0 1.6 0 2.4 0 0 0 0 0 0 0C18.8 3.3 18.8 3.3 18.8 3.3z"/></svg>
+	
+ Hacker News</a></li>
+		</ul>
+	</div>
+</div>
+
+<script src="/js/main.js"></script>
+
+<script>
+	var headings = document.querySelectorAll("h2[id]");
+
+	console.log(headings);
+	for (var i = 0; i < headings.length; i++) {
+		var anchorLink = document.createElement("a");
+		anchorLink.innerText = "#";
+		anchorLink.href = "#" + headings[i].id;
+		anchorLink.classList.add("header-link");
+
+		headings[i].appendChild(anchorLink);
+	}
+
+	$(".modalOpen").click(function() {
+		var id = $(this).attr("href");
+		$(id).addClass("show");
+
+		$(window).click(function() {
+			$(".show").removeClass("show");
+		});
+
+		$(id + " > div").click(function(event){
+			event.stopPropagation();
+		});
+		return false;
+	});
+
+	$(".close").click(function() {
+		$(".show").removeClass("show");
+		return false;
+	});
+
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			$(".show").removeClass("show");
+		}
+	});
+</script>
+
+			      </div>
+		    </section>
+
+		    <footer>
+	<div class="wrapper">
+		<p class="edit-footer"><a class="editor-link btn" href="cloudcannon:collections/_data/footer.yml" class="btn" style="padding: 5px;"><strong>&#9998;</strong> Edit footer</a></p>
+		<ul class="footer-links">
+			
+				<li><a target="_blank" href="https://twitter.com/mconforg" class="Twitter-icon">
+					
+						
+		<svg class="twitter" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" /></svg>
+	
+
+					
+					</a></li>
+			
+				<li><a target="_blank" href="https://youtube.com/mconforg" class="YouTube-icon">
+					
+						
+		<svg class="youtube" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10,16.5V7.5L16,12M20,4.4C19.4,4.2 15.7,4 12,4C8.3,4 4.6,4.19 4,4.38C2.44,4.9 2,8.4 2,12C2,15.59 2.44,19.1 4,19.61C4.6,19.81 8.3,20 12,20C15.7,20 19.4,19.81 20,19.61C21.56,19.1 22,15.59 22,12C22,8.4 21.56,4.91 20,4.4Z" /></svg>
+	
+
+					
+					</a></li>
+			
+				<li><a  href="/feed.xml" class="RSS-icon">
+					
+						
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+		
+
+					
+					</a></li>
+			
+		</ul>
+		<p class="copyright">&copy; Mconf Docs 2017. All rights reserved.</p>
+	</div>
+</footer>
+		    <script>
+			   $(function() {
+				     $('a[href*=\\#]').not(".no-smooth").on('click', function(event){
+					       var el = $(this.hash);
+					       if (el.length > 0) {
+						         // event.preventDefault();
+						         $('html,body').animate({scrollTop:$(this.hash).offset().top - 50}, 500);
+					       }
+				     });
+
+				     $('svg').click(function() {
+					       $(this).parent('form').submit();
+				     });
+			   });
+
+			   document.getElementById("open-nav").addEventListener("click", function (event) {
+				     event.preventDefault();
+				     document.body.classList.toggle("nav-open");
+			   });
+		    </script>
+	</body>
+</html>

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	  <head>
+		    <meta charset="utf-8">
+		    <meta name="viewport" content="width=device-width, initial-scale=1">
+		    <meta name="generator" content="Jekyll v3.4.3">
+
+		    <link rel="stylesheet" href="/css/screen.css">
+		    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+		    <link rel="icon" type="image/png" href="/touch-icon.png" sizes="192x192">
+		    <link rel="icon" type="image/png" href="/images/favicon.svg">
+		    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Merriweather:400italic,400,300italic,300,700,700italic|Open+Sans:400italic,600italic,700italic,700,600,400|Inconsolata:400,700">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+        <!-- Begin Jekyll SEO tag v2.1.0 -->
+<title>Installing Mconf-Web - Mconf Docs</title>
+<meta property="og:title" content="Installing Mconf-Web" />
+<meta name="description" content="How to install Mconf-Web in your server" />
+<meta property="og:description" content="How to install Mconf-Web in your server" />
+<link rel="canonical" href="/mconf-web/installation/mconf-web-deploy/" />
+<meta property="og:url" content="/mconf-web/installation/mconf-web-deploy/" />
+<meta property="og:site_name" content="Mconf Docs" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-01-30T00:00:00-02:00" />
+<script type="application/ld+json">
+{"@context": "http://schema.org",
+"@type": "BlogPosting",
+"headline": "Installing Mconf-Web",
+"datePublished": "2017-01-30T00:00:00-02:00",
+"description": "How to install Mconf-Web in your server",
+"publisher": {"@type": "Organization",
+"logo": {"@type": "ImageObject",
+"url": "/siteicon.png"}},
+"url": "/mconf-web/installation/mconf-web-deploy/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+		    
+	  </head>
+
+	  <body class="">
+		    <section class="notification">
+          This is a work in progress version of the new documentation for Mconf. Pages might still be incomplete or broken.
+		    </section>
+		    <header>
+			      <div class="wrapper">
+				        <section class="top-bar">
+					          <div class="logo"><a href="/"><img src="/images/logo-mconf.png" />
+</a></div>
+					          <a class="nav-toggle" id="open-nav" href="#">&#9776;</a>
+<nav>
+	<a class="editor-link btn" href="cloudcannon:collections/_data/navigation.yml" class="btn" style="padding: 5px;"><strong>&#9998;</strong> Edit navigation</a>
+	
+	
+
+		
+		<a href="/" class="">Tutorials</a>
+	
+	
+
+		
+		<a href="/videos/" class="">Videos</a>
+	
+	
+
+		
+		<a href="/faq/" class="">FAQ</a>
+	
+</nav>
+
+				        </section>
+				        <section class="hero_search">
+					          <h1>Mconf Docs</h1>
+					          <p>Everything you need to know about Mconf.</p>
+					          <form action="/search/" method="get">
+	<input type="search" name="q"  placeholder="What would you like to know?" autofocus>
+	<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</svg>
+	<input type="submit" value="Search" style="display: none;">
+</form>
+				        </section>
+			      </div>
+
+		    </header>
+		    <section class="content">
+			      <div class="wrapper">
+				        
+<section class="tutorial has-sidebar">
+  <section class="sidebar sticky">
+		<ul>
+			
+				<li><a href="#system-packages">System Packages</a></li>
+			
+				<li><a href="#ruby">Ruby</a></li>
+			
+				<li><a href="#download-the-application">Download the application</a></li>
+			
+				<li><a href="#configuration-files">Configuration files</a></li>
+			
+				<li><a href="#database-user">Database user</a></li>
+			
+				<li><a href="#application-configurations">Application configurations</a></li>
+			
+				<li><a href="#web-server">Web server</a></li>
+			
+				<li><a href="#monit">Monit</a></li>
+			
+				<li><a href="#logrotate">Logrotate</a></li>
+			
+				<li><a href="#done">Done!</a></li>
+			
+				<li><a href="#restart">Restart</a></li>
+			
+				<li><a href="#backup">Backup</a></li>
+			
+				<li><a href="#update">Update</a></li>
+			
+		</ul>
+	</section>
+	<section class="tutorial-content">
+
+    
+      <h1>Installing Mconf-Web</h1>
+	  
+
+		
+
+		<div class="tutorial-main">
+			<h1 id="overview">Overview</h1>
+
+<p>This is a step-by-step guide showing every detail needed to install Mconf-Web. If you have experience deploying a Rails application this guide should look very familiar to you.</p>
+
+<p>Mconf-Web is developed in and targeted to Ubuntu systems. We recommend the use of an specific version of Ubuntu (see below).</p>
+
+<p>The recommended setup for the latest version of Mconf-Web is:</p>
+
+<ol>
+  <li><a href="http://www.ubuntu.com/">Ubuntu</a> 14.04 operating system with a user named <code class="highlighter-rouge">mconf</code> (do not use <code class="highlighter-rouge">root</code>).</li>
+  <li>Ruby is installed with <a href="https://github.com/rbenv/rbenv">rbenv</a>.</li>
+  <li><a href="http://www.modrails.com/">Phusion Passenger</a> (ruby app server).</li>
+  <li><a href="http://httpd.apache.org/">Apache 2.4</a>.</li>
+  <li><a href="http://www.mysql.com/">MySQL</a> database.</li>
+</ol>
+
+<p>This guide guide will instruct you on how to set up this environment.</p>
+
+<p>Mconf-Web can also be adapted to your needs. It is a Ruby on Rails application, so the deployment process is very similar to the deployment of any other Rails application. It should work on any operating system that has Ruby available (and most of them do). But be aware that changing any of these components will probably require modifications in the configuration files and scripts (and maybe even some code changes). Some things, such as trying out a new version of Ubuntu, shouldn’t be troublesome. Be careful if you’re doing it, the instructions here were not tested in other environments than the one described above.</p>
+
+<h1 id="migrate-from-08x">Migrate from 0.8.x</h1>
+
+<p>If you are migrating to Mconf-Web 2.x, check these pages for more information:</p>
+
+<ul>
+  <li><a href="/mconf-web/installation/mconf-web-migrate-0_8-to-2_0-new-server/">Migrate from 0.8.1 to 2.0 by installing a new server</a> (recommended)</li>
+  <li><a href="/mconf-web/installation/mconf-web-migrate-0_8-to-2_0-update-server/">Migrate from 0.8.1 to 2.0 by upgrading your server</a></li>
+</ul>
+
+<h1 id="installing-mconf-web">Installing Mconf-Web</h1>
+
+<h2 id="system-packages">System Packages</h2>
+
+<p>You need to install some system packages before you can run Mconf-web in production:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get update
+sudo apt-get install curl make git-core libruby aspell-es aspell-en <span class="se">\</span>
+    libxml2-dev libxslt1-dev libmagickcore-dev libmagickwand-dev <span class="se">\</span>
+    imagemagick libmysqlclient-dev zlib1g-dev build-essential nfs-common <span class="se">\</span>
+    libreadline-dev libffi-dev libcurl4-openssl-dev mysql-server <span class="se">\</span>
+    redis-server openjdk-7-jre apache2 libapache2-mod-xsendfile
+</code></pre>
+</div>
+
+<p>This will install several libraries and a few applications and tools Mconf-Web needs.</p>
+
+<p>You will be prompted to type a password for MySQL’s root user in case you don’t have MySQL server installed yet. You can choose any password you want. The root user will not be used by Mconf-Web, it will only be used by you to configure MySQL.</p>
+
+<h2 id="ruby">Ruby</h2>
+
+<p>Mconf-web uses Ruby <strong>2.2.5</strong>. To install Ruby, we suggest the use of <a href="https://github.com/rbenv/rbenv">rbenv</a>.</p>
+
+<p>But you have other options:</p>
+
+<ul>
+  <li>Using RVM: see <a href="https://rvm.io/rvm/install/">this page</a>.</li>
+  <li>Using apt packages.</li>
+  <li>From source.</li>
+</ul>
+
+<p>From now on, we will assume you will use rbenv, so if you decide for another method you might have to adapt some of commands in the rest of this guide.</p>
+
+<p>The commands below will show you how to install rbenv. In short, this is what you will be doing:</p>
+
+<ul>
+  <li>Install rbenv</li>
+  <li>Install the plugin <a href="https://github.com/rbenv/ruby-build">ruby-build plugin</a>, that will actually be used to install ruby</li>
+  <li>Install the target ruby</li>
+  <li>Install bundler</li>
+</ul>
+
+<p><strong>Important: if you have RVM installed, you should remove it first!</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Install rbenv</span>
+git clone git://github.com/rbenv/rbenv.git ~/.rbenv
+<span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> &gt;&gt; ~/.bash_profile
+<span class="nb">echo</span> <span class="s1">'eval "$(rbenv init -)"'</span> &gt;&gt; ~/.bash_profile
+<span class="nb">source</span> ~/.bash_profile
+
+<span class="c"># install ruby build</span>
+git clone git://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+<span class="c"># install ruby</span>
+rbenv install 2.2.5
+rbenv rehash
+
+<span class="c"># set this version of ruby as the default and check it is correct</span>
+rbenv global 2.2.5
+rbenv version
+<span class="gp">&gt; </span>2.2.5 <span class="o">(</span><span class="nb">set </span>by /home/mconf/.rbenv/version<span class="o">)</span>
+
+<span class="c"># install bundler</span>
+gem install bundler -v <span class="s1">'1.7.2'</span>
+rbenv rehash
+</code></pre>
+</div>
+
+<h2 id="download-the-application">Download the application</h2>
+
+<p>We’ll assume the application is going to be installed at <code class="highlighter-rouge">/var/www/mconf-web/current</code>. You can change this, but be aware that you might have to adapt several configuration files during the rest of the installation. We’ll also assume your user is named <code class="highlighter-rouge">mconf</code>.</p>
+
+<p>Install git if you don’t have it and clone Mconf-Web:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo mkdir -p /var/www/mconf-web/current
+sudo chown mconf:www-data /var/www/mconf-web/current <span class="c"># www-data is for Apache</span>
+git clone git://github.com/mconf/mconf-web.git /var/www/mconf-web/current
+</code></pre>
+</div>
+
+<p>Next, change your repository to the version you want to deploy (replace <code class="highlighter-rouge">v2.4.0</code> by the desired version):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /var/www/mconf-web/current
+git checkout v2.4.0
+</code></pre>
+</div>
+
+<p>The versions available are the tags available. To see all versions, go to <a href="https://github.com/mconf/mconf-web/releases">this page</a>.</p>
+
+<p>With the repository you can now install the dependencies. Run the commands below:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>bundle install --path vendor/bundle --without<span class="o">=</span>development <span class="nb">test</span>
+</code></pre>
+</div>
+
+<h2 id="configuration-files">Configuration files</h2>
+
+<p>There are two files that need to be configured and <strong>they are both required</strong>. At first, copy the example files:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>cp /var/www/mconf-web/current/config/setup_conf.yml.example /var/www/mconf-web/current/config/setup_conf.yml
+cp /var/www/mconf-web/current/config/database.yml.example /var/www/mconf-web/current/config/database.yml
+</code></pre>
+</div>
+
+<p>See below what you have to edit in <code class="highlighter-rouge">setup_conf.yml</code> and <code class="highlighter-rouge">database.yml</code>:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">database.yml</code> configures the database, using MySQL by default. You only need to set the variables <code class="highlighter-rouge">username</code> and <code class="highlighter-rouge">password</code> (for all environments) with the user that will be used to access MySQL and his password. We recommend a user other than <code class="highlighter-rouge">root</code> (usually <code class="highlighter-rouge">mconf</code>). See in the section 4.1. below how to create this user.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">setup_conf.yml</code> has general configurations for the web application, some are required when the application is started and some are only used once when creating the database. For the latter, you can also later use Mconf-Web’s management interface (see <a href="/mconf-web/mconf-web-configuration/">this page</a>) to edit them. If you don’t edit this file, the default administrator account will have username <code class="highlighter-rouge">admin</code> and password <code class="highlighter-rouge">admin</code>.</p>
+  </li>
+</ul>
+
+<p>We suggest that you restrict the permissions to these files, since they will contain sensitive information:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo chmod 0600 /var/www/mconf-web/current/config/setup_conf.yml
+sudo chmod 0600 /var/www/mconf-web/current/config/database.yml
+</code></pre>
+</div>
+
+<p>To learn more about the other options in these files, see <a href="/mconf-web/mconf-web-configuration/">this page</a>).</p>
+
+<h2 id="database-user">Database user</h2>
+
+<p>This section explains how to create a database for Mconf-Web with a user named <code class="highlighter-rouge">mconf</code> and give him access to it.</p>
+
+<p>First open MySQL’s console (you will have to enter the password for the <code class="highlighter-rouge">root</code> user):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>mysql -u root -p
+</code></pre>
+</div>
+
+<p>(If you’re having trouble with the root password in MySQL, see <a href="https://github.com/mconf/wiki/wiki/FAQ#wrong-username-andor-password-for-mysql">this FAQ entry</a>.)</p>
+
+<p>To create the database run:</p>
+
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">mconf_production</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Then create the user (<strong>change all occurrences of <code class="highlighter-rouge">password</code> below by the actual password</strong>):</p>
+
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">USER</span> <span class="nv">"mconf"</span><span class="o">@</span><span class="nv">"localhost"</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="nv">"password"</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">mconf_production</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="nv">"mconf"</span><span class="o">@</span><span class="nv">"localhost"</span><span class="p">;</span>
+<span class="n">FLUSH</span> <span class="k">PRIVILEGES</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<h2 id="application-configurations">Application configurations</h2>
+
+<p>With the configuration files properly set, we’ll now set up the database and generate a new <a href="http://www.railsrocket.com/rake-secret">secret key</a> for the application:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /var/www/mconf-web/current
+<span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>rake db:drop db:create db:reset
+
+<span class="c"># This command will change the secret keys used by the application for cookies and</span>
+<span class="c"># passwords. It's really important that you do it, otherwise your application will</span>
+<span class="c"># use the default values (that are public!) and will be vulnerable.</span>
+<span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>rake secret:reset
+</code></pre>
+</div>
+
+<p>Then precompile the assets (this might take a few minutes to finish):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>bundle <span class="nb">exec </span>rake <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">RAILS_GROUPS</span><span class="o">=</span>assets assets:precompile
+</code></pre>
+</div>
+
+<h2 id="web-server">Web server</h2>
+
+<p>The web server we use to host Mconf-Web is Apache. We also use <a href="http://www.modrails.com/">Passenger</a> to server the application together with Apache. So you’ll have to install Passenger and use it in the configurations of Apache.</p>
+
+<h3 id="passenger-with-apache-24">Passenger with Apache 2.4</h3>
+
+<p>Install Passenger (it’s a ruby gem) and its module for Apache. Passenger has a nice installer that will compile the Apache module and install it for you. If some dependency is missing it will warn you and help you install it. Run the following commands:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>gem install rack:1.5.5 passenger:4.0.59
+rbenv rehash
+passenger-install-apache2-module
+</code></pre>
+</div>
+<p><em>(Note: we install rack also because newer versions of it require ruby &gt; 2.2.0.)</em></p>
+
+<p>The application <code class="highlighter-rouge">passenger-install-apache2-module</code> is interactive and has the following steps:</p>
+
+<ol>
+  <li>Check for dependencies: If your system is missing any required software, it will warn you and tell you how to install them. You have to install <strong>all packages suggested!</strong> Simply exit the passenger installer, install the packages and then run the passenger installer again;</li>
+  <li>Ask you which languages you’re interested in using Passenger with. You can leave only <strong>ruby</strong> checked.</li>
+  <li>Automatically compile and install the module for Apache;</li>
+  <li>It will show you some lines that must be added the you Apache configuration file. Ignore this for now, the next step of this guide will show you how to configure it.</li>
+  <li>In the last step it will give you an example of how to deploy an application. Ignore the example for now, the next step of this guide will show you the specific configurations for Mconf-web.</li>
+</ol>
+
+<p>Once Passenger has finished installing, enable its module in Apache with:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf-available/mconf-passenger.conf
+sudo a2enconf mconf-passenger
+</code></pre>
+</div>
+
+<p>This will create a new configuration file with the Passenger module snippet, the same block Passenger showed you in the last item after the installation.</p>
+
+<p>See more about Passenger at <a href="https://www.phusionpassenger.com/">their website</a> and <a href="http://www.modrails.com/documentation/Users%20guide%20Apache.html">read this guide</a> to see more about how it can be used with Apache.</p>
+
+<h3 id="apache-configurations">Apache configurations</h3>
+
+<p>By default Apache is installed at <code class="highlighter-rouge">/etc/apache2/</code> and it’s configuration file will be at <code class="highlighter-rouge">/etc/apache2/apache2.conf</code>.
+You can add configuration files at <code class="highlighter-rouge">/etc/apache2/conf-available/</code> and sites at <code class="highlighter-rouge">/etc/apache2/sites-available/</code>.</p>
+
+<p>At first we enable some modules in Apache and remove any default site (in case it exists):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo a2enmod rewrite
+sudo a2enmod xsendfile
+sudo rm /etc/apache2/sites-enabled/<span class="k">*</span>  <span class="c"># be careful if you have something installed already!</span>
+</code></pre>
+</div>
+
+<p>Now you need to add a configuration file for Mconf-Web. You might just download our example and edit it:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo cp /var/www/mconf-web/current/config/webserver/apache2.example /etc/apache2/sites-available/mconf-web.conf
+</code></pre>
+</div>
+
+<p>The file will be saved at <code class="highlighter-rouge">/etc/apache2/sites-available/mconf-web.conf</code>.</p>
+
+<p>You should change <code class="highlighter-rouge">YOUR_HOST</code> by your IP or domain and <code class="highlighter-rouge">/YOUR_MCONF_WEB/public</code> (both occurrences) to the path to your Mconf-Web application, that should be <code class="highlighter-rouge">/var/www/mconf-web/current/public</code> (don’t forget to point to the <strong>public</strong> directory!).</p>
+
+<p>Review also the <code class="highlighter-rouge">LimitRequestBody</code> option, that is used to limit the size of files uploaded to Mconf-Web and defaults to 15 MB. You can change it to whatever you want, just remember to also change the option available in the [[management configuration of your site|Configuring the Website]] to the same value you configure on Apache. Notice that Apache uses 2014 as the multiplier for file sizes. This means that, if you set “15 MB” as the maximum file size in Mconf-Web, for example, you need to set “15728640” in Apache. These are some other examples of matching values in Mconf-Web and in Apache:</p>
+<ul>
+  <li>5 MB = 5242880</li>
+  <li>10 MB = 10485760</li>
+  <li>50 MB = 52428800</li>
+</ul>
+
+<p>After editing the file, enable it in Apache with:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo a2ensite mconf-web
+</code></pre>
+</div>
+
+<p>At last, restart Apache and it should be ready to serve Mconf-Web:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo service apache2 restart
+</code></pre>
+</div>
+
+<p>At this point you should already be able to access your application in your browser!</p>
+
+<h2 id="monit">Monit</h2>
+
+<p><a href="http://mmonit.com/monit/">Monit</a> is a tool for managing and monitoring processes in UNIX systems. It is installed as packages in your server and configured to monitor some processes needed by Mconf-Web. Monit will make sure all processes related to Mconf-Web are running, and it’s your job to make sure that Monit is always running.</p>
+
+<p>Install monit:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install monit
+</code></pre>
+</div>
+
+<p>You shouldn’t have problems regarding the version of Monit being used, but, for a reference, these instructions have been tested with Monit 5.3.2.</p>
+
+<p>The configuration files Mconf-Web uses for Monit are found in the application’s folder <code class="highlighter-rouge">config/monit/</code>. We will simply include these files in Monit’s configuration file, so they are loaded when monit starts. First, open the configuration file with an editor:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo vim /etc/monit/monitrc
+</code></pre>
+</div>
+
+<p>Change the monitoring interval to 1 minute (it usually defaults to 2 minutes):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>set daemon 60
+</code></pre>
+</div>
+
+<p>Enable HTTP support by uncommenting the following lines:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>set httpd port 2812 and
+   use address localhost  # only accept connection from localhost
+   allow localhost
+</code></pre>
+</div>
+
+<p>Then install the configuration file:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo cp /var/www/mconf-web/current/config/monit/resque_workers.monitrc /etc/monit/conf.d/resque_workers.monitrc
+</code></pre>
+</div>
+
+<p>Notice that this file contains the path to the application and the user/group that should be used to run the processes. They are set to use the default folder (<code class="highlighter-rouge">/var/www/mconf-web/current</code>) and user/group (<code class="highlighter-rouge">mconf:mconf</code>), but <strong>you should always check them to see if they fit your environment</strong>!</p>
+
+<h3 id="managing-monit-start-stop-log-files">Managing Monit: start, stop, log files</h3>
+
+<p>To start and stop Monit you can simply run:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo /etc/init.d/monit stop
+sudo /etc/init.d/monit start
+</code></pre>
+</div>
+
+<p>Be aware that stopping Monit will <em>not</em> stop the processes it monitors. You have to stop them individually before or after stopping Monit. When you start Monit, however, all processes are started. Monit is also started automatically when your server is started, so all processes will automatically be started.</p>
+
+<p>You can check if the processes being monitored are running with:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>ps aux | grep -e resque
+</code></pre>
+</div>
+
+<p>The response you get should include the processes in the example output below:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mconf  13082  0.0 10.5 944220 106708 ?  Sl  Nov08  1:06 resque-1.25.1: Waiting for all
+</code></pre>
+</div>
+
+<p>To start or stop the processes individually, use:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># for resque workers: all of them</span>
+sudo monit -g resque_workers start
+sudo monit -g resque_workers stop
+
+<span class="c"># for all services</span>
+sudo monit start all
+sudo monit stop all
+</code></pre>
+</div>
+
+<p>If any of the commands above fail with the message <code class="highlighter-rouge">monit: Cannot connect to the monit daemon. Did you start it with http support?</code>, you need to enable http support on Monit’s config file. Open the configuration file at <code class="highlighter-rouge">/etc/monit/monitrc</code>. Search for a section similar to the one below and uncomment it:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>set httpd port 2812 and
+   use address localhost  # only accept connection from localhost
+   allow localhost        # allow localhost to connect to the server and
+</code></pre>
+</div>
+
+<h3 id="log-files">Log files</h3>
+
+<p>Monit’s log file is located at <code class="highlighter-rouge">/var/log/monit.log</code>. The log files for the processes it monitors are at:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>/var/www/mconf-web/current/log/resque_workers_all.log
+/var/www/mconf-web/current/log/resque_scheduler.log
+</code></pre>
+</div>
+
+<h2 id="logrotate">Logrotate</h2>
+
+<p><a href="http://linuxcommand.org/man_pages/logrotate8.html">Logrotate</a> is a utility that prevents logs from getting too big by creating new files and compacting the old ones.</p>
+
+<p>You server should already have it installed, but if it doesn’t, install it with:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install logrotate
+</code></pre>
+</div>
+
+<p>The configuration file for logrotate can be copied from Mconf-Web’s repository with:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo cp /var/www/mconf-web/current/config/logrotate/mconf-web /etc/logrotate.d/mconf-web
+</code></pre>
+</div>
+
+<p>If you have Mconf-Web installed in a path other than <code class="highlighter-rouge">/var/www/mconf-web/current</code>, you will have to edit the  application path in the configuration file above.</p>
+
+<p>Then set the permissions and activate logrotate:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo chown root:root /etc/logrotate.d/mconf-web
+sudo chmod 644 /etc/logrotate.d/mconf-web
+sudo logrotate -s /var/lib/logrotate/status /etc/logrotate.d/mconf-web
+</code></pre>
+</div>
+
+<p>If the last command doesn’t print any errors, it should be working. Check the <code class="highlighter-rouge">log</code> folder inside your Mconf-Web to see if the log files have been changed.</p>
+
+<h2 id="done">Done!</h2>
+
+<p>At this point you finished installing Mconf-Web. The first thing you might want to do is <a href="/mconf-web/mconf-web-configuration/">access the application and configure it</a>).</p>
+
+<h1 id="maintenance-tasks">Maintenance tasks</h1>
+
+<h2 id="restart">Restart</h2>
+
+<p>To restart the application you need to restart the web server and all processes being monitored:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo service apache2 restart
+sudo /etc/init.d/monit restart
+sudo monit restart all
+</code></pre>
+</div>
+
+<p>The web server you’ll need to restart every time you change anything in the application (source code) or configuration files. You don’t always need to restart Monit, only if you changed anything in its configuration files or in files that the monitored processes use (for example, if you change the Gmail account settings used to send emails). If you’re not sure, restart it.</p>
+
+<h2 id="backup">Backup</h2>
+
+<p>The most important backup you need is your database. If you’re using MySQL, you can use the following commands to backup (and restore) the database used by Mconf-Web:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># backup: dump the database to a .sql file</span>
+mysqldump -u root -p mconf_production &gt; mconf_production-<span class="sb">`</span>date +%F<span class="sb">`</span>.sql
+
+<span class="c"># restore: load the .sql file</span>
+mysql -u root -p mconf_production &lt; mconf_production-2011-06-21.sql
+</code></pre>
+</div>
+
+<p>There are also files that are not stored in the database, such as user avatars and attachments. And you also might want to backup your log files. So make sure you back up the files in the following folders:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>/var/www/mconf-web/current/private/uploads/
+/var/www/mconf-web/current/public/uploads/
+/var/www/mconf-web/current/log/
+</code></pre>
+</div>
+
+<h2 id="update">Update</h2>
+
+<p><strong>Important</strong>: These instructions are only valid if you are updating your version from Mconf-Web 2.0 to newer 2.x versions. If you are upgrading from previous versions of Mconf-Web to 2.x, check the section <a href="#migrate-from-08x">Migrate from 0.8.x</a>.</p>
+
+<p>At first, update your repository and get the version you want (replace <code class="highlighter-rouge">v2.4.0</code> by the desired version):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /var/www/mconf-web/current
+git pull
+git checkout v2.4.0
+</code></pre>
+</div>
+
+<p>Update the dependencies:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>bundle install --without<span class="o">=</span>development <span class="nb">test</span>
+</code></pre>
+</div>
+
+<p>Migrate the database:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>rake db:migrate
+</code></pre>
+</div>
+
+<p>Recompile the assets:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>bundle <span class="nb">exec </span>rake <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">RAILS_GROUPS</span><span class="o">=</span>assets assets:precompile
+</code></pre>
+</div>
+
+<p>There are also other files that might need to be updated, such as the configuration files for Monit, that will not be configured with the commands above. To check if you need to do any extra work, look at the update notes in the <a href="https://github.com/mconf/mconf-web/blob/master/CHANGELOG.md">changelog</a>.</p>
+
+<p>Restart the web server as described previously.</p>
+
+		</div>
+		<div class="tutorial-share">
+			<a class="modalOpen no-smooth" href="#subscribe">
+			<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+		
+ Subscribe</a>
+			<a class="modalOpen no-smooth" href="#share">
+			<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+				<path d="M0 0h24v24H0z" fill="none"/>
+				<path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+			</svg>
+		
+ Share</a>
+		</div>
+	</section>
+</section>
+
+
+
+
+
+	<div class="related">
+		<h3>Related documents</h3>
+
+		<ul class="listing">
+	
+		<li >
+			<a href="/apis/webhooks-api/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+			  <path d="M0 0h24v24H0z" fill="none"/>
+		</svg>
+  
+</div>
+				<article>
+					<div>
+						<h3>API Webhooks</h3>
+						<p class="description">Description of the events triggered by the webhooks</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/bigbluebutton/bigbluebutton-internal-messages/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+			  <path d="M0 0h24v24H0z" fill="none"/>
+		</svg>
+  
+</div>
+				<article>
+					<div>
+						<h3>BigBlueButton Messages</h3>
+						<p class="description">A list of internal messages that go through redis on BigBlueButton</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-notas-compartilhadas/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Notas compartilhadas</h3>
+						<p class="description">Este tutorial mostra como funciona o módulo de notas compartilhadas no Mconf</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-moderacao/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Moderação e controle dos participantes</h3>
+						<p class="description">Este tutorial mostra as funções de moderação de usuários em uma conferência no Mconf.</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-layouts/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Modificar o layout da sessão</h3>
+						<p class="description">Este tutorial inclui informações sobre como modificar o layout (disposição e visibilidade das janelas internas) de uma conferência no Mconf</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-integracao-moodle/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Integração com o Moodle</h3>
+						<p class="description">Este tutorial mostra como funciona a integração do Mconf com o Moodle.</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-gravacao/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Gravação e visualização de gravações</h3>
+						<p class="description">Este tutorial mostra como gravar e como visualizar conferências no Mconf</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-documentos-e-quadro-branco/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Compartilhamento de documentos e quadro branco</h3>
+						<p class="description">Este tutorial ensina como compartilhar documentos em uma conferência e como interagir com o quadro branco</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/video%20tutoriais%20(pt)/video-tutorial-compartilhamento-de-tela-java/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			<path d="M0 0h24v24H0z" fill="none"/>
+			<path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+		</svg>
+	
+</div>
+				<article>
+					<div>
+						<h3>Compartilhamento de tela (Java)</h3>
+						<p class="description">Este tutorial mostra como utilizar o compartilhamento de tela Java em uma conferência no Mconf</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+		<li >
+			<a href="/mconf-web/development/mconf-web-testing/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+			  <path d="M0 0h24v24H0z" fill="none"/>
+		</svg>
+  
+</div>
+				<article>
+					<div>
+						<h3>Testing Mconf-Web</h3>
+						<p class="description">Instructions to test Mconf-Web</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
+</ul>
+
+	</div>
+
+
+
+
+<div id="subscribe" class="modalDialog">
+	<div>
+		<a title="Close" class="close">&times;</a>
+		<form action="" method="post">
+			<h2>Subscribe</h2>
+			<p>The latest tutorials sent straight to your inbox.</p>
+			<input type="email" name="EMAIL" placeholder="Email">
+			<input type="submit" value="Sign up">
+		</form>
+	</div>
+</div>
+
+<div id="share" class="modalDialog sharing">
+	<div>
+		<a title="Close" class="close">&times;</a>
+		<h2>Share</h2>
+		<p>Share this tutorial with your community.</p>
+		<ul>
+			<li><a class="twitter" target="_blank" href="https://twitter.com/intent/tweet?url=%2Fmconf-web%2Finstallation%2Fmconf-web-deploy%2F">
+		<svg class="twitter" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" /></svg>
+	
+ Twitter</a></li>
+			<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2Fmconf-web%2Finstallation%2Fmconf-web-deploy%2F">
+		<svg class="facebook" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="15.8 15.8 25 25"><path d="M32.8 24.7h-3.2v-2.1c0-0.8 0.5-1 0.9-1s2.3 0 2.3 0v-3.5l-3.1 0c-3.5 0-4.3 2.6-4.3 4.3v2.3h-2v3.6h2c0 4.6 0 10.2 0 10.2h4.2c0 0 0-5.6 0-10.2h2.8L32.8 24.7z"/></svg>
+	
+ Facebook</a></li>
+			<li><a class="google-plus" target="_blank" href="https://plus.google.com/share?url=%2Fmconf-web%2Finstallation%2Fmconf-web-deploy%2F">
+		<svg class="google-plus" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M23,11H21V9H19V11H17V13H19V15H21V13H23M8,11V13.4H12C11.8,14.4 10.8,16.4 8,16.4C5.6,16.4 3.7,14.4 3.7,12C3.7,9.6 5.6,7.6 8,7.6C9.4,7.6 10.3,8.2 10.8,8.7L12.7,6.9C11.5,5.7 9.9,5 8,5C4.1,5 1,8.1 1,12C1,15.9 4.1,19 8,19C12,19 14.7,16.2 14.7,12.2C14.7,11.7 14.7,11.4 14.6,11H8Z" /></svg>
+	
+ Google+</a></li>
+			<li><a class="hacker-news" target="_blank" href="http://news.ycombinator.com/submitlink?u=%2Fmconf-web%2Finstallation%2Fmconf-web-deploy%2F&t=Installing%20Mconf-Web">
+		<svg class="hacker-news" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.8 3.3c-0.4 0.8-5.6 11.1-5.6 11.2 0 2 0 6.2 0 6.2 -0.1 0-2.2 0-2.3 0 0 0 0-5.9 0-6.2 0 0-5.5-10.9-5.6-11.1C5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3c0 0 0 0 0.1 0 0.9 0 1.7 0 2.6 0 0 0 0 0 0 0.1 0.1 0.1 4 8.3 4.1 8.3 0 0 4.2-8.3 4.3-8.4 0.8 0 1.6 0 2.4 0 0 0 0 0 0 0C18.8 3.3 18.8 3.3 18.8 3.3z"/></svg>
+	
+ Hacker News</a></li>
+		</ul>
+	</div>
+</div>
+
+<script src="/js/main.js"></script>
+
+<script>
+	var headings = document.querySelectorAll("h2[id]");
+
+	console.log(headings);
+	for (var i = 0; i < headings.length; i++) {
+		var anchorLink = document.createElement("a");
+		anchorLink.innerText = "#";
+		anchorLink.href = "#" + headings[i].id;
+		anchorLink.classList.add("header-link");
+
+		headings[i].appendChild(anchorLink);
+	}
+
+	$(".modalOpen").click(function() {
+		var id = $(this).attr("href");
+		$(id).addClass("show");
+
+		$(window).click(function() {
+			$(".show").removeClass("show");
+		});
+
+		$(id + " > div").click(function(event){
+			event.stopPropagation();
+		});
+		return false;
+	});
+
+	$(".close").click(function() {
+		$(".show").removeClass("show");
+		return false;
+	});
+
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			$(".show").removeClass("show");
+		}
+	});
+</script>
+
+			      </div>
+		    </section>
+
+		    <footer>
+	<div class="wrapper">
+		<p class="edit-footer"><a class="editor-link btn" href="cloudcannon:collections/_data/footer.yml" class="btn" style="padding: 5px;"><strong>&#9998;</strong> Edit footer</a></p>
+		<ul class="footer-links">
+			
+				<li><a target="_blank" href="https://twitter.com/mconforg" class="Twitter-icon">
+					
+						
+		<svg class="twitter" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" /></svg>
+	
+
+					
+					</a></li>
+			
+				<li><a target="_blank" href="https://youtube.com/mconforg" class="YouTube-icon">
+					
+						
+		<svg class="youtube" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10,16.5V7.5L16,12M20,4.4C19.4,4.2 15.7,4 12,4C8.3,4 4.6,4.19 4,4.38C2.44,4.9 2,8.4 2,12C2,15.59 2.44,19.1 4,19.61C4.6,19.81 8.3,20 12,20C15.7,20 19.4,19.81 20,19.61C21.56,19.1 22,15.59 22,12C22,8.4 21.56,4.91 20,4.4Z" /></svg>
+	
+
+					
+					</a></li>
+			
+				<li><a  href="/feed.xml" class="RSS-icon">
+					
+						
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+		
+
+					
+					</a></li>
+			
+		</ul>
+		<p class="copyright">&copy; Mconf Docs 2017. All rights reserved.</p>
+	</div>
+</footer>
+		    <script>
+			   $(function() {
+				     $('a[href*=\\#]').not(".no-smooth").on('click', function(event){
+					       var el = $(this.hash);
+					       if (el.length > 0) {
+						         // event.preventDefault();
+						         $('html,body').animate({scrollTop:$(this.hash).offset().top - 50}, 500);
+					       }
+				     });
+
+				     $('svg').click(function() {
+					       $(this).parent('form').submit();
+				     });
+			   });
+
+			   document.getElementById("open-nav").addEventListener("click", function (event) {
+				     event.preventDefault();
+				     document.body.classList.toggle("nav-open");
+			   });
+		    </script>
+	</body>
+</html>

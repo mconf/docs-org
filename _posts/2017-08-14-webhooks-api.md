@@ -11,6 +11,8 @@ tags:
 
 ## List of events triggered by the webhooks
 
+### Meeting events
+
 * meeting_created_message -> meeting-created
 * meeting_destroyed_event -> meeting-ended
 * user_joined_message -> user-joined
@@ -22,6 +24,22 @@ tags:
 * send_public_chat_message -> chat-public-message-sent
 * send_private_chat_message -> chat-private-message-sent
 
+### Recording events
+
+* archive_started -> rap-archive-started
+* archive_ended -> rap-archive-ended
+* sanity_started -> rap-sanity-started
+* sanity_ended -> rap-sanity-ended
+* post_archive_started -> rap-post-archive-started
+* post_archive_ended -> rap-post-archive-ended
+* process_started -> rap-process-started
+* process_ended -> rap-process-ended
+* post_process_started -> rap-post-process-started
+* post_process_ended -> rap-post-process-ended
+* publish_started -> rap-publish-started
+* publish_ended -> rap-publish-ended
+* post_publish_started -> rap-post-publish-started
+* post_publish_ended -> rap-post-publish-ended
 
 ### Other candidates (future)
 
@@ -99,7 +117,7 @@ tags:
         }
       },
       "event": {
-        "ts": 1502212442257
+        "ts": 1502810164922
       }
     }
   }
@@ -137,7 +155,7 @@ tags:
         "internal-meeting-id": "28311eecec6394e5c51be47a4eed381ab7f156c6-1502470514081"
       },
       "event": {
-        "ts": 1502470522712
+        "ts": 1502810164922
       }
     }
   }
@@ -200,7 +218,7 @@ tags:
         "listening-only": false
       },
       "event": {
-        "ts": 1502212521389,
+        "ts": 1502810164922
       }
     }
   }
@@ -254,17 +272,11 @@ tags:
         "internal-meeting-id": "0a168dbfbe554287381bf0cfe27e015e33207702-1502212442238"
       },
       "user": {
-        "name": "User 1131066",
-        "role": "MODERATOR",
-        "presenter": false,
         "internal-user-id": "lwzhlo27k2zf_1",
-        "external-user-id": "lwzhlo27k2zf",
-        "sharing-mic": false,
-        "sharing-video": false,
-        "listening-only": false
+        "external-user-id": "lwzhlo27k2zf"
       },
       "event": {
-        "ts": 1502212970704
+        "ts": 1502810164922
       }
     }
   }
@@ -309,7 +321,7 @@ tags:
         "external-user-id": "lwzhlo27k2zf"
       },
       "event": {
-        "ts": 1502212699862
+        "ts": 1502810164922
       }
     }
   }
@@ -354,7 +366,7 @@ tags:
         "external-user-id": "lwzhlo27k2zf"
       },
       "event": {
-        "ts": 1502212521389,
+        "ts": 1502810164922
       }
     }
   }
@@ -414,7 +426,7 @@ tags:
         "external-user-id": "lwzhlo27k2zf"
       },
       "event": {
-        "ts": 1502213029467
+        "ts": 1502810164922
       }
     }
   }
@@ -474,7 +486,7 @@ tags:
         "external-user-id": "cypnwcc5j26c"
       },
       "event": {
-        "ts": 1502213329446
+        "ts": 1502810164922
       }
     }
   }
@@ -532,7 +544,7 @@ tags:
         }
       },
       "event": {
-        "ts": 1502213329446
+        "ts": 1502810164922
       }
     }
   }
@@ -594,7 +606,47 @@ tags:
         }
       },
       "event": {
-        "ts": 1502213329446
+        "ts": 1502810164922
+      }
+    }
+  }
+}
+```
+
+## Recording events
+
+All recording events follow the same format, as described below.
+
+### Internal event
+
+```json
+{
+  "header":{
+    "timestamp": 3007797,
+    "name": "archive_started",
+    "current_time": 1502808791,
+    "version": "0.0.1"
+  },
+  "payload":{
+    "meeting_id": "e4b9f4cf1556137f656485a05766a05ec993607a-1502808610079"
+  }
+}
+```
+
+### Event sent via webhooks
+
+```json
+{
+  "data": {
+    "type": "event",
+    "id": "rap-archive-started",
+    "attributes": {
+      "meeting": {
+        "external-meeting-id": "random-578101",
+        "internal-meeting-id": "e4b9f4cf1556137f656485a05766a05ec993607a-1502808610079"
+      },
+      "event": {
+        "ts": 1502810164922
       }
     }
   }

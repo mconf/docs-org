@@ -15,25 +15,25 @@
 		    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
         <!-- Begin Jekyll SEO tag v2.1.0 -->
-<title>Blog post - Mconf’s new website - Mconf Docs</title>
-<meta property="og:title" content="Blog post - Mconf’s new website" />
-<meta name="description" content="Blog post from 2012-09-03" />
-<meta property="og:description" content="Blog post from 2012-09-03" />
-<link rel="canonical" href="/archives/blog-mconfs-new-website/" />
-<meta property="og:url" content="/archives/blog-mconfs-new-website/" />
+<title>Mconf-Web with shibboleth for development - Mconf Docs</title>
+<meta property="og:title" content="Mconf-Web with shibboleth for development" />
+<meta name="description" content="Instructions to enable shibboleth in development in Mconf-Web" />
+<meta property="og:description" content="Instructions to enable shibboleth in development in Mconf-Web" />
+<link rel="canonical" href="/mconf-web/development/mconf-web-development-shibboleth/" />
+<meta property="og:url" content="/mconf-web/development/mconf-web-development-shibboleth/" />
 <meta property="og:site_name" content="Mconf Docs" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2012-09-03T00:00:00-03:00" />
+<meta property="article:published_time" content="2017-08-24T00:00:00-03:00" />
 <script type="application/ld+json">
 {"@context": "http://schema.org",
 "@type": "BlogPosting",
-"headline": "Blog post - Mconf’s new website",
-"datePublished": "2012-09-03T00:00:00-03:00",
-"description": "Blog post from 2012-09-03",
+"headline": "Mconf-Web with shibboleth for development",
+"datePublished": "2017-08-24T00:00:00-03:00",
+"description": "Instructions to enable shibboleth in development in Mconf-Web",
 "publisher": {"@type": "Organization",
 "logo": {"@type": "ImageObject",
 "url": "/siteicon.png"}},
-"url": "/archives/blog-mconfs-new-website/"}</script>
+"url": "/mconf-web/development/mconf-web-development-shibboleth/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -89,35 +89,52 @@
 		    <section class="content">
 			      <div class="wrapper">
 				        
-<section class="tutorial ">
+<section class="tutorial has-sidebar">
   <section class="sidebar sticky">
 		<ul>
+			
+				<li><a href="#how-to">How-to</a></li>
+			
+				<li><a href="#details">Details</a></li>
 			
 		</ul>
 	</section>
 	<section class="tutorial-content">
 
     
-      <section class="title-archived">
-        <h1>Blog post - Mconf's new website</h1>
-        This is an archived post from 03 Sep 2012
-      </section>
-    
+      <h1>Mconf-Web with shibboleth for development</h1>
+	  
 
 		
 
 		<div class="tutorial-main">
-			<p>We are proud to present our brand new website that introduces Mconf”s new visual identity! This website will be an organized repository for all types of content related to Mconf, with explanations about the project, informations about the components that build the system as a whole, news, and any other information that might be relevant to the community. And also, as you can see, we now have a blog!</p>
+			<h2 id="how-to">How-to</h2>
 
-<p>In the following posts in this blog we will show you what”s happening in Mconf today and what are our plans for the future. But for now, let”s just take a look at our new website. One of the reasons it was created was to remove content that”s specific for Mconf from our web portal (Mconf-Web), that aims to be a generic application for anyone that wants to use BigBlueButton. Pages such as “contact us” and “informations about the Mconf network” were moved to this new website you’re seeing now.</p>
+<p>Run Mconf-Web in development, access it (<code class="highlighter-rouge">localhost:3000</code>) and sign in as admin. Go to the management page, click “edit” and check the checkbox <code class="highlighter-rouge">Shibboleth: Enable</code>.</p>
 
-<p>The content you can find today in this website is the basic structure for what will be added in the future. In the main page we have an overview with a demo where you can test Mconf and take a look at all its features. It also points to the Mconf Portal, the social network that provides access to Mconf and aggregates our communities and users.</p>
+<p>Edit the following attributes and then save the configurations (the values for the fields below were taken from the the method <code class="highlighter-rouge">test_data</code> in the file <code class="highlighter-rouge">mconf-web/app/controllers/shibboleth_controller.rb</code>):</p>
 
-<p>Currently, most of the content in this site is located in the about section, such as the page that explains the concept of the Mconf global network and the pages with resources and publications. Also, if you want to know the people behind Mconf you can check our team page and maybe contact us directly.</p>
+<ul>
+  <li>In ‘Shibboleth: Field for email’ fill with <code class="highlighter-rouge">Shib-inetOrgPerson-mail</code></li>
+  <li>In ‘Shibboleth: Field for name’ fill with <code class="highlighter-rouge">Shib-inetOrgPerson-cn</code></li>
+  <li>In ‘Shibboleth: Field for principal name (unique ID)’ fill with <code class="highlighter-rouge">Shib-inetOrgPerson-mail</code></li>
+  <li>In ‘Shibboleth: Environment variables’ fill with <code class="highlighter-rouge">Shib.*</code></li>
+</ul>
 
-<p>And, at last, this change happened at the same time another major change is happening: our headquarter was moved to a new lab to accommodate the new members that will be joining our team very soon!</p>
+<p>Open <code class="highlighter-rouge">mconf-web/app/controllers/shibboleth_controller.rb</code> and add the function <code class="highlighter-rouge">test_data</code> as the first call inside the <code class="highlighter-rouge">load_shib_session</code> function.</p>
 
-<p><img src="http://mconf.org/wp-content/uploads/2012/08/new-lab-1800-1024x768.jpg" alt="" /></p>
+<h2 id="details">Details</h2>
+
+<p>In production, all the Shibboleth protocol is implemented by modules installed in Apache (<code class="highlighter-rouge">mod_shib</code>).
+They will handle all the communication and all Mconf-Web needs to do is read the user data from environment variables after the user authenticates.</p>
+
+<p>In development, however, there is no Apache to do all the communication, so we need to fake it.
+The method <code class="highlighter-rouge">test_data</code> simulates what <code class="highlighter-rouge">mod_shib</code> does after the user authenticates: it sets several environment variables with data such as the user’s name and email.
+So by calling <code class="highlighter-rouge">test_data</code> in a place <strong>before</strong> Mconf-Web actually deals with the data, we can pretend a user is signing in via Shibboleth.</p>
+
+<p>The rest of the configurations done above (setting the attributes in the management page) are done for production also.
+That’s because we need to tell Mconf-Web from which environment variables it should read the user data.
+So these variables should be the same as the ones set in <code class="highlighter-rouge">test_data</code>, however they are called.</p>
 
 		</div>
 		<div class="tutorial-share">
@@ -144,24 +161,6 @@
 		<h3>Related documents</h3>
 
 		<ul class="listing">
-	
-		<li >
-			<a href="/mconf-web/development/mconf-web-development-shibboleth/">
-				<div class="icon">
-		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-			  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
-			  <path d="M0 0h24v24H0z" fill="none"/>
-		</svg>
-  
-</div>
-				<article>
-					<div>
-						<h3>Mconf-Web with shibboleth for development</h3>
-						<p class="description">Instructions to enable shibboleth in development in Mconf-Web</p>
-					</div>
-				</article>
-			</a>
-		</li>
 	
 		<li >
 			<a href="/apis/webhooks-api/">
@@ -325,6 +324,24 @@
 			</a>
 		</li>
 	
+		<li >
+			<a href="/mconf-web/development/mconf-web-testing/">
+				<div class="icon">
+		<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+			  <path d="M0 0h24v24H0z" fill="none"/>
+		</svg>
+  
+</div>
+				<article>
+					<div>
+						<h3>Testing Mconf-Web</h3>
+						<p class="description">Instructions to test Mconf-Web</p>
+					</div>
+				</article>
+			</a>
+		</li>
+	
 </ul>
 
 	</div>
@@ -350,19 +367,19 @@
 		<h2>Share</h2>
 		<p>Share this tutorial with your community.</p>
 		<ul>
-			<li><a class="twitter" target="_blank" href="https://twitter.com/intent/tweet?url=%2Farchives%2Fblog-mconfs-new-website%2F">
+			<li><a class="twitter" target="_blank" href="https://twitter.com/intent/tweet?url=%2Fmconf-web%2Fdevelopment%2Fmconf-web-development-shibboleth%2F">
 		<svg class="twitter" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" /></svg>
 	
  Twitter</a></li>
-			<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2Farchives%2Fblog-mconfs-new-website%2F">
+			<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2Fmconf-web%2Fdevelopment%2Fmconf-web-development-shibboleth%2F">
 		<svg class="facebook" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="15.8 15.8 25 25"><path d="M32.8 24.7h-3.2v-2.1c0-0.8 0.5-1 0.9-1s2.3 0 2.3 0v-3.5l-3.1 0c-3.5 0-4.3 2.6-4.3 4.3v2.3h-2v3.6h2c0 4.6 0 10.2 0 10.2h4.2c0 0 0-5.6 0-10.2h2.8L32.8 24.7z"/></svg>
 	
  Facebook</a></li>
-			<li><a class="google-plus" target="_blank" href="https://plus.google.com/share?url=%2Farchives%2Fblog-mconfs-new-website%2F">
+			<li><a class="google-plus" target="_blank" href="https://plus.google.com/share?url=%2Fmconf-web%2Fdevelopment%2Fmconf-web-development-shibboleth%2F">
 		<svg class="google-plus" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M23,11H21V9H19V11H17V13H19V15H21V13H23M8,11V13.4H12C11.8,14.4 10.8,16.4 8,16.4C5.6,16.4 3.7,14.4 3.7,12C3.7,9.6 5.6,7.6 8,7.6C9.4,7.6 10.3,8.2 10.8,8.7L12.7,6.9C11.5,5.7 9.9,5 8,5C4.1,5 1,8.1 1,12C1,15.9 4.1,19 8,19C12,19 14.7,16.2 14.7,12.2C14.7,11.7 14.7,11.4 14.6,11H8Z" /></svg>
 	
  Google+</a></li>
-			<li><a class="hacker-news" target="_blank" href="http://news.ycombinator.com/submitlink?u=%2Farchives%2Fblog-mconfs-new-website%2F&t=Blog%20post%20-%20Mconf%27s%20new%20website">
+			<li><a class="hacker-news" target="_blank" href="http://news.ycombinator.com/submitlink?u=%2Fmconf-web%2Fdevelopment%2Fmconf-web-development-shibboleth%2F&t=Mconf-Web%20with%20shibboleth%20for%20development">
 		<svg class="hacker-news" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.8 3.3c-0.4 0.8-5.6 11.1-5.6 11.2 0 2 0 6.2 0 6.2 -0.1 0-2.2 0-2.3 0 0 0 0-5.9 0-6.2 0 0-5.5-10.9-5.6-11.1C5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3 5.3 3.3c0 0 0 0 0.1 0 0.9 0 1.7 0 2.6 0 0 0 0 0 0 0.1 0.1 0.1 4 8.3 4.1 8.3 0 0 4.2-8.3 4.3-8.4 0.8 0 1.6 0 2.4 0 0 0 0 0 0 0C18.8 3.3 18.8 3.3 18.8 3.3z"/></svg>
 	
  Hacker News</a></li>
